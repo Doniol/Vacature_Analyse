@@ -42,7 +42,6 @@ cur = conn.cursor()
 # Execute a query
 json_out = get_json_from_id(cur, 69)
 
-
 # Retrieve query results
 records = cur.fetchall()
 
