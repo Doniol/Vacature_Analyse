@@ -16,8 +16,28 @@ def get_json_from_id(cursor, id):
 
 
 def cleanup_json(json_string):
-    json.loads(json_string)
-    pass
+    # Clean the description up by removing the HTML-tags and remove
+    # first line (this line not needed for example word count)
+    # Load json as dict() and put the ["description"] in desc_string
+    desc_string = json.loads(json_string)["description"]
+    
+    index = None
+    for i in range(0,len(desc_string)):
+        if desc_string[i] == "\n":
+            index = i+1
+            break
+    desc_string = desc_string[index:]
+    
+    # Replace every instance of <p>, </p>, etc with empty string ""
+    for i in desc_string:
+        desc_string = desc_string.replace("<p>", "")
+        desc_string = desc_string.replace("</p>", "")
+        desc_string = desc_string.replace("<li>", "")
+        desc_string = desc_string.replace("</li>", "")
+        desc_string = desc_string.replace("<ul>", "")
+        desc_string = desc_string.replace("</ul>", "")
+    return desc_string
+    
 
 def main():
     return
@@ -39,11 +59,8 @@ conn = psycopg2.connect(
 # Open a cursor to perform database operations
 cur = conn.cursor()
 
-# Execute a query
-json_out = get_json_from_id(cur, 69)
-
-# Retrieve query results
-records = cur.fetchall()
+# Print the cleaned description
+print(cleanup_json(get_json_from_id(cur, 69)[0][0]))
 
 if __name__ == "__main__":
     main()
