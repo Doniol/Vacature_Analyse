@@ -1,2 +1,9 @@
+import json
+
 def main():
-    return
+    with open("fake_analysis_input.json") as file:
+        incoming_data = json.load(file)
+    
+    print(incoming_data)
+
+main()
