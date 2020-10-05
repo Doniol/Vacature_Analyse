@@ -2,7 +2,7 @@ import psycopg2
 import json
 
 def get_table_names(cursor):
-    cur.execute('''
+    cursor.execute('''
         SELECT table_name
         FROM information_schema.tables
         WHERE table_schema='public'
@@ -14,12 +14,26 @@ def get_json_from_id(cursor, id):
     cursor.execute("SELECT json FROM raw_json WHERE id=%s", (id,))
     return cursor.fetchall()
 
+def get_json_all(cursor):
+    cursor.execute("SELECT json FROM raw_json")
+    return cursor.fetchall()
+
 
 def cleanup_json(json_string):
     # Clean the description up by removing the HTML-tags and remove
     # first line (this line not needed for example word count)
+
+    # =================================
+    # Some json's don't have a 'description' tag
+    # =================================
+
     # Load json as dict() and put the ["description"] in desc_string
-    desc_string = json.loads(json_string)["description"]
+    desc_string = ""
+    try:
+        desc_string = json.loads(json_string)["description"]
+    except KeyError:
+        desc_string = json.loads(json_string)["content"]
+    
     
     index = None
     for i in range(0,len(desc_string)):
@@ -40,27 +54,34 @@ def cleanup_json(json_string):
     
 
 def main():
-    return
+    # dbname: pocdb
+    # dbuser: pocuser
+    # dbpassword: pocuser
+    # HOST: weert.lucimmerzeel.nl
+    # PORT: 5432
 
-# dbname: pocdb
-# dbuser: pocuser
-# dbpassword: pocuser
-# HOST: weert.lucimmerzeel.nl
-# PORT: 5432
+    # Connect to your postgres DB
+    conn = psycopg2.connect(
+        host="weert.lucimmerzeel.nl",
+        port="5432",
+        database="pocdb",
+        user="pocuser",
+        password="pocuser")
 
-# Connect to your postgres DB
-conn = psycopg2.connect(
-    host="weert.lucimmerzeel.nl",
-    port="5432",
-    database="pocdb",
-    user="pocuser",
-    password="pocuser")
+    # Open a cursor to perform database operations
+    cur = conn.cursor()
 
-# Open a cursor to perform database operations
-cur = conn.cursor()
+    # List of strings. This will later be used for the cleaned up descriptions
+    descriptions = []
 
-# Print the cleaned description
-print(cleanup_json(get_json_from_id(cur, 69)[0][0]))
+    print("Grabbing json-files...", end="")
+    jsons = get_json_all(cur)
+    print("Done!\nCleaning descriptions...", end="")
+    for json in jsons:
+        # Elements are in a tupple, at index 0
+        # Store the cleaned descriptions in a list of strings
+        descriptions.append(cleanup_json(json[0]))    
+    print("Done!\nAmount of descriptions: {}".format(len(descriptions)))
 
 if __name__ == "__main__":
     main()
