@@ -76,6 +76,7 @@ def main():
 
     print("Grabbing json-files...", end="")
     jsons = get_json_all(cur)
+    print(jsons[0])
     print("Done!\nCleaning descriptions...", end="")
     for json in jsons:
         # Elements are in a tupple, at index 0
