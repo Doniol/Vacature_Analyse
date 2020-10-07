@@ -25,16 +25,6 @@ def main():
     data_dict = db.create_dict(desired_instute)
     print(data_dict)
     data_words, data_amounts = split_dict(data_dict)
-    # data_dict = {
-    #         "Pindakaas": [0, 5],
-    #         "Sociaal": [0, 25],
-    #         "Aardappel": [2, 1],
-    #         "penguin": [1, 90],
-    #         "Python": [2, 67],
-    #         "Random": [0, 4],
-    #         "Snackbar": [0, 99],
-    #         "Hallo": [2, 3]
-    #         }
     if not data_words:
         data_word.append("No data")
         data_amounts.append("No data")
@@ -48,7 +38,6 @@ def main():
         color="Black"))
     
     fig.show()
-
     return
 
 if __name__ == "__main__":
