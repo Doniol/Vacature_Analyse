@@ -38,7 +38,7 @@ def main():
         fig = go.Figure(data=[go.Table(header=dict(values=['Kernwoord', 'Komt voor']),
                     cells=dict(values=[data_words, data_amounts]))
                         ])
-        fig.update_layout(title= "Instutt of " + str(desired_instute), font=dict(
+        fig.update_layout(title= "Institute of " + str(desired_instute), font=dict(
             family="Comic Sans MS, monospace",
             size=12,
             color="Black"))

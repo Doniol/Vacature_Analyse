@@ -5,8 +5,12 @@ class pipeline_analyse_to_db(database_connection):
     def __init__(self, host: str, port: str, database_name: str, user: str, password: str) -> None:
         database_connection.__init__(self, host, port, database_name, user, password)
     
-    def add_new_entry(self, word: str, institute: str, count: int) -> None:
-        self.enter_command("INSERT INTO output VALUES (\'{0}\', {1}, {2})".format(word, institute_id, count))
+    def add_new_entry(self, word: str, institute_id: int, count: int, institute: str) -> None:
+        self.enter_command("INSERT INTO {0} VALUES (\'{1}\', {2}, {3})".format(institute, word, institute_id, count))
+    
+    def add_dict(self, words: List[str], institute: str) -> None:
+        for key in words:
+            self.add_new_entry(key, words[key][1], words[key][0], institute)
 
 
 class pipeline_db_to_interface(database_connection):
