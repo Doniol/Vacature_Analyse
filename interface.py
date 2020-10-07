@@ -14,7 +14,7 @@ def split_dict(data_dict):
 
 def main():
     desired_instute = "*"
-    show_table = True
+    show_table = "both"
 
     host = "weert.lucimmerzeel.nl"
     port = "5432"
@@ -25,27 +25,47 @@ def main():
     db.connect()
     data_dict = db.create_dict(desired_instute)
     data_words, data_amounts = split_dict(data_dict)
-
+    
     if not data_words:
         data_word.append("No data")
         data_amounts.append("No data")
 
+    if show_table == "both":
+        fig = go.Figure(data=[go.Table(header=dict(values=['Kernwoord', 'Komt voor']),
+                    cells=dict(values=[data_words, data_amounts]))
+                        ])
+        fig.update_layout(title= "Instuut voor " + str(desired_instute), font=dict(
+            family="Comic Sans MS, monospace",
+            size=12,
+            color="Black"))
+        fig.show()
+        
+        
+        fig = go.Figure(data=[go.Pie(labels=data_words[:10], values=data_amounts[:10], textinfo='label+percent',
+                                insidetextorientation='radial')])
+        fig.update(layout_title_text='Instuut voor ' + str(desired_instute))
+        fig.show()
 
-    fig = go.Figure(data=[go.Table(header=dict(values=['Kernwoord', 'Komt voor']),
-                cells=dict(values=[data_words, data_amounts]))
-                    ])
-    fig.update_layout(title= "Instuut voor " + str(desired_instute), font=dict(
-        family="Comic Sans MS, monospace",
-        size=12,
-        color="Black"))
-    fig.show()
+    elif show_table == "table":
+        fig = go.Figure(data=[go.Table(header=dict(values=['Kernwoord', 'Komt voor']),
+                    cells=dict(values=[data_words, data_amounts]))
+                        ])
+        fig.update_layout(title= "Instuut voor " + str(desired_instute), font=dict(
+            family="Comic Sans MS, monospace",
+            size=12,
+            color="Black"))
+        fig.show()
 
+    elif show_table == "pie":
+        fig = go.Figure(data=[go.Pie(labels=data_words[:10], values=data_amounts[:10], textinfo='label+percent',
+                                insidetextorientation='radial')])
+        fig.update(layout_title_text='Instuut voor ' + str(desired_instute))
+        
+        fig.show()
 
-    fig = go.Figure(data=[go.Pie(labels=data_words[:10], values=data_amounts[:10], textinfo='label+percent',
-                             insidetextorientation='radial')])
-    fig.update(layout_title_text='Instuut voor ' + str(desired_instute))
+    else:
+        print("Invalid table choice, please choose from: both, table or pie")
 
-    fig.show()
     return
 
 if __name__ == "__main__":

@@ -1,70 +1,44 @@
-import psycopg2
+from pipeline_base import database_connection
+from typing import Union, List, Dict, Tuple, Any
+
+class pipeline_analyse_to_db(database_connection):
+    def __init__(self, host: str, port: str, database_name: str, user: str, password: str) -> None:
+        database_connection.__init__(self, host, port, database_name, user, password)
+    
+    def add_new_entry(self, word: str, institute: str, count: int) -> None:
+        self.enter_command("INSERT INTO output VALUES (\'{0}\', {1}, {2})".format(word, institute_id, count))
 
 
-class database_connection:
-    def __init__(self, host, port, database_name, user, password):
-        self.host = host
-        self.port = port
-        self.database_name = database_name
-        self.user = user
-        self.password = password
-        self.connection = None
-        self.cursor = None
+class pipeline_db_to_interface(database_connection):
+    def __init__(self, host: str, port: str, database_name: str, user: str, password: str) -> None:
+        database_connection.__init__(self, host, port, database_name, user, password)
 
-    def connect(self):
-        self.connection = psycopg2.connect(host=self.host, port=self.port, 
-                          database=self.database_name, user=self.user, password=self.password)
-        self.cursor = self.connection.cursor()
+    def get_by_institute(self, institute: str) -> List[Tuple[str, int, int]]:
+        return self.fetch_command("SELECT * FROM {}".format(institute))
     
-    def get_by_id(self, institute_id: str):
-        self.cursor.execute("SELECT * FROM output WHERE instituutid={}".format(institute_id))
-        return self.cursor.fetchall()
-    
-    def get_all_entries(self):
-        self.cursor.execute("SELECT * FROM output")
-        return self.cursor.fetchall()
-    
-    def add_new_entry(self, word: str, institute_id: int, count: int):
-        self.cursor.execute("INSERT INTO output VALUES (\'{0}\', {1}, {2})".format(word, institute_id, count))
-        self.connection.commit()
-    
-    def clear_table(self, table_name):
-        self.cursor.execute("DELETE FROM {}".format(table_name))
-        self.connection.commit()
+    def get_all_entries(self) -> List[Tuple[List[str], List[Tuple[str, int, int]]]]:
+        entries = []
+        for institute in self.fetch_command("select table_name from innodb.INFORMATION_SCHEMA.TABLES where TABLE_TYPE = 'BASE TABLE' and not table_name like 'pg_%' and not table_name like 'sql_%'"):
+            entries.append([institute, self.get_by_institute(institute[0])])
+        return entries
 
-    def create_dict(self, institute_id):
-        if institute_id == "*":
-            return self.get_dict(self.get_all_entries())
+    def create_dict(self, institute: str) -> Union[Dict[str, int], Dict[str, Dict[str, int]]]:
+        if institute == "*":
+            return self.get_multi_dict(self.get_all_entries())
         else:
-            return self.get_dict(self.get_by_id(int(institute_id)))
+            return self.get_dict(self.get_by_institute(int(institute)))
 
-    def get_dict(self, data_entries):
+    def get_dict(self, data_entries: List[Tuple[str, int, int]]) -> Dict[str, int]:
         entry_dict = {}
         for data_entry in data_entries:
             entry_dict[data_entry[0]] = data_entry[2]
         return entry_dict
-
-
-def main():
-    host = "weert.lucimmerzeel.nl"
-    port = "5432"
-    database_name = "innodb"
-    user = "innouser"
-    password = "innouser"
-    db = database_connection(host, port, database_name, user, password)
-    db.connect()
-
-    for i in range(0, 100):
-        db.add_new_entry("test" + str(i), i, i * 10)
-    print(db.get_all_entries())
-
-    # db.add_new_entry("test4", 66, 666)
-    # print(db.get_all_entries())
-    # test_dict = db.create_dict(69)
-    # print(test_dict)
-
-    # db.clear_table("output")
-    # print(db.get_all_entries())
-
-
-# main()
+    
+    def get_multi_dict(self, dataset: List[Tuple[List[str], List[Tuple[str, int, int]]]]) -> Dict[str, Dict[str, int]]:
+        multi_dict = {}
+        for data_entries in dataset:
+            entry_dict = {}
+            for data_entry in data_entries[1]:
+                entry_dict[data_entry[0]] = data_entry[2]
+            multi_dict[data_entries[0][0]] = entry_dict
+        return multi_dict
