@@ -26,7 +26,7 @@ class pipeline_db_to_interface(database_connection):
         if institute == "*":
             return self.get_multi_dict(self.get_all_entries())
         else:
-            return self.get_dict(self.get_by_institute(int(institute)))
+            return self.get_dict(self.get_by_institute(institute))
 
     def get_dict(self, data_entries: List[Tuple[str, int, int]]) -> Dict[str, int]:
         entry_dict = {}
