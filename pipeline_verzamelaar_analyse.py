@@ -28,15 +28,15 @@ class pipeline_db_to_analyse(database_connection):
         
         # Replace every instance of <p>, </p>, etc with empty string ""
         for i in desc_string:
-            desc_string = desc_string.replace("<p>", "")
-            desc_string = desc_string.replace("</p>", "")
-            desc_string = desc_string.replace("<li>", "")
-            desc_string = desc_string.replace("</li>", "")
-            desc_string = desc_string.replace("<ul>", "")
-            desc_string = desc_string.replace("</ul>", "")
-            desc_string = desc_string.replace("<strong>", "")
-            desc_string = desc_string.replace("</strong>", "")
-            desc_string = desc_string.replace("<br />", "")
+            desc_string = desc_string.replace("<p>", " ")
+            desc_string = desc_string.replace("</p>", " ")
+            desc_string = desc_string.replace("<li>", " ")
+            desc_string = desc_string.replace("</li>", " ")
+            desc_string = desc_string.replace("<ul>", " ")
+            desc_string = desc_string.replace("</ul>", " ")
+            desc_string = desc_string.replace("<strong>", " ")
+            desc_string = desc_string.replace("</strong>", " ")
+            desc_string = desc_string.replace("<br />", " ")
         return desc_string
 
     def get_descriptions(self):
