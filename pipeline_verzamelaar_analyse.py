@@ -39,13 +39,13 @@ class pipeline_db_to_analyse(database_connection):
             desc_string = desc_string.replace("<br />", " ")
         return desc_string
 
-    def get_descriptions(self):
+    def get_descriptions(self, amount):
         descriptions = []
         print("Grabbing jsons...", end="")
         jsons = self.get_json_all()
         print("Done!\nCleaning descriptions...", end="")
 
-        for json in jsons:
+        for json in jsons[:amount]:
             descriptions.append(self.cleanup_json(json[0]))
         
         print("Done!\nAmount of descriptions: {}".format(len(descriptions)))
