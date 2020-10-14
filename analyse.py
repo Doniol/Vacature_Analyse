@@ -33,7 +33,6 @@ def main():
 
     db_out.add_dict(words_at_3, "institute_ict")
     db_out.add_dict(words_at_4, "institute_marketing")
-    print("donerio")
 
 
 main()
