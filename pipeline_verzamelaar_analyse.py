@@ -30,6 +30,8 @@ class pipeline_db_to_analyse(database_connection):
         for i in desc_string:
             desc_string = desc_string.replace("<p>", " ")
             desc_string = desc_string.replace("</p>", " ")
+            desc_string = desc_string.replace("<em>", " ")
+            desc_string = desc_string.replace("</em>", " ")
             desc_string = desc_string.replace("<li>", " ")
             desc_string = desc_string.replace("</li>", " ")
             desc_string = desc_string.replace("<ul>", " ")
