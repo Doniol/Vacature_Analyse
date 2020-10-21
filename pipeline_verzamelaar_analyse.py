@@ -1,5 +1,6 @@
 from pipeline_base import database_connection
 import json
+from html import entities
 
 
 class pipeline_db_to_analyse(database_connection):
@@ -26,10 +27,12 @@ class pipeline_db_to_analyse(database_connection):
                     break
             desc_string = desc_string[index:]
         
-        # Replace every instance of <p>, </p>, etc with empty string ""
         for i in desc_string:
+            # Replace every instance of <p>, </p>, etc with empty string ""
             desc_string = desc_string.replace("<p>", " ")
             desc_string = desc_string.replace("</p>", " ")
+            desc_string = desc_string.replace("<em>", " ")
+            desc_string = desc_string.replace("</em>", " ")
             desc_string = desc_string.replace("<li>", " ")
             desc_string = desc_string.replace("</li>", " ")
             desc_string = desc_string.replace("<ul>", " ")
@@ -37,6 +40,17 @@ class pipeline_db_to_analyse(database_connection):
             desc_string = desc_string.replace("<strong>", " ")
             desc_string = desc_string.replace("</strong>", " ")
             desc_string = desc_string.replace("<br />", " ")
+
+            # Replace the HTML-chars with UTF-8 chars
+            desc_string = desc_string.replace("&egrave;", entities.html5["egrave;"])    # è
+            desc_string = desc_string.replace("&eacute;", entities.html5["eacute;"])    # é
+            desc_string = desc_string.replace("&euml;", entities.html5["euml;"])        # ë
+            desc_string = desc_string.replace("&ecirc;", entities.html5["ecirc;"])      # ê
+            desc_string = desc_string.replace("&ouml;", entities.html5["ouml;"])        # ö
+            desc_string = desc_string.replace("&iuml;", entities.html5["iuml;"])        # ï
+            desc_string = desc_string.replace("&nbsp;", entities.html5["nbsp;"])        # whitespace
+            desc_string = desc_string.replace("&rsquo;", "'")     
+            desc_string = desc_string.replace("&#39;", "'")     
         return desc_string
 
     def get_descriptions(self, amount):
