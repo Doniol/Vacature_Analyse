@@ -59,36 +59,17 @@ class pipeline_db_to_interface(database_connection):
     def get_lookup_table(self, table_name):
         return self.fetch_command("SELECT * FROM {0}".format(table_name))
 
-    
     def get_dict(self, data_entries):
-        dates_all_info = self.get_lookup_table("")
-
-
-
-
-
-
-    def create_dict(self, institute: str) -> Union[Dict[str, int], Dict[str, Dict[str, int]]]:
-        if institute == "*":
-            return self.get_multi_dict(self.get_all_entries())
-        else:
-            return self.get_dict(self.get_by_institute(institute))
-
-    def get_dict(self, data_entries: List[Tuple[int, int, int]]) -> Dict[str, int]:
-        dates_all_info = self.get_lookup_table("dates_") ## (word, word_id)
-        words_all_info = self.get_lookup_table("words_") ## (date, date_id)
+        dates_all_info = self.get_lookup_table("dates_")
+        words_all_info = self.get_lookup_table("words_")
 
         entry_dict = {}
 
         for data_entry in data_entries:
-            entry_dict[words_all_info[data_entry[0]][1]] += data_entry[1]
+            data_dict = {}
+            data_dict["word_id"] = data_entry[1]
+            data_dict["word_count"] = data_entry[2]
+            data_dict["date_id"] = data_entry[3]
+            data_dict["institute_id"] = data_entry[4]
+            entry_dict[data_entry[0]] = data_dict
         return entry_dict
-    
-    def get_multi_dict(self, dataset: List[Tuple[List[str], List[Tuple[str, int, int]]]]) -> Dict[str, Dict[str, int]]:
-        multi_dict = {}
-        for data_entries in dataset:
-            entry_dict = {}
-            for data_entry in data_entries[1]:
-                entry_dict[data_entry[0]] = data_entry[2]
-            multi_dict[data_entries[0][0]] += entry_dict
-        return multi_dict
