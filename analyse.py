@@ -35,28 +35,17 @@ def main():
     password_out = "innouser"
     db_out = pipeline_out(host, port, database_out, user_out, password_out)
     print("analysing")
-    input_descriptions = db_in.get_descriptions(10) + ["Kurwa pierdzielona", "Petit merde, je ne parle pas anglais", "Avancati!", "Lengyel, Magyar", "Shit, fuck, crapbaskets", "Parlez vous een beetje henk?"]
-    # input_descriptions = [desc for desc in input_descriptions if nlp(desc)._.language["language"] == "nl"]  
+    input_descriptions = db_in.get_descriptions(100) + ["Kurwa pierdzielona", "Petit merde, je ne parle pas anglais", "Avancati!", "Lengyel, Magyar", "Shit, fuck, crapbaskets", "Parlez vous een beetje henk?"]
+    input_descriptions = [desc for desc in input_descriptions if nlp(desc)._.language["language"] == "nl"]  
     # print(input_descriptions)
 
-    # Replace the HTML-chars with UTF-8 chars
-    # We're temporary only using the first description
-    input_descriptions[0] = input_descriptions[0].replace("&egrave;", entities.html5["egrave;"])    # è
-    input_descriptions[0] = input_descriptions[0].replace("&eacute;", entities.html5["eacute;"])    # é
-    input_descriptions[0] = input_descriptions[0].replace("&euml;", entities.html5["euml;"])        # ë
-    input_descriptions[0] = input_descriptions[0].replace("&ecirc;", entities.html5["ecirc;"])      # ê
-    input_descriptions[0] = input_descriptions[0].replace("&ouml;", entities.html5["ouml;"])        # ö
-    input_descriptions[0] = input_descriptions[0].replace("&iuml;", entities.html5["iuml;"])        # ï
-    input_descriptions[0] = input_descriptions[0].replace("&nbsp;", entities.html5["nbsp;"])        # whitespace
-    input_descriptions[0] = input_descriptions[0].replace("&rsquo;", "'")                           # ’ => '
-
-    # "è, é, ë, ê, ö, ï"
-
-    doc = nlp(input_descriptions[0])
-    for token in doc:
-        if token.is_stop or token.is_punct or token.is_space:
-            continue
-        print(token.text)
+    for desc in input_descriptions:
+        doc = nlp(desc)
+        for token in doc:
+            if token.is_stop or token.is_punct or token.is_space:
+                continue
+            elif token.is_digit or token.is_alpha:
+                print(token.text)
     
     # words_at_3 = get_words_at_index(input_descriptions, 2)
     # words_at_4 = get_words_at_index(input_descriptions, 3)
