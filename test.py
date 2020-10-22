@@ -1,18 +1,11 @@
-import plotly.graph_objects as go
-import numpy as np
-from pipeline_analyse_interface import pipeline_db_to_interface as pipeline
+import operator
 
 
 def main():
-    host = "weert.lucimmerzeel.nl"
-    port = "5432"
-    database_name = "innodb"
-    user = "innouser"
-    password = "innouser"
-    db = pipeline(host, port, database_name, user, password)
-    data = db.fetch_command("SELECT * FROM institute_ict")
-    for thing in data:
-        print(thing[0].strip(), thing[1])
+    dct = {"boi": {"name": "headass", "age" : 69}, "grill": {
+        "name:": "asshead", "age": 96}}
+    dct_2 = sorted(dct.items(), key=lambda x: x[1]["age"], reverse=True)
+    print(dct_2)
 
 
 if __name__ == "__main__":
