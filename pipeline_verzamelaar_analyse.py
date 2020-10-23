@@ -10,6 +10,38 @@ class pipeline_db_to_analyse(database_connection):
     def get_json_all(self):
         return self.fetch_command(command="SELECT json FROM raw_json")
 
+
+    '''
+    Author: Prof Mo
+    Source: https://stackoverflow.com/a/42774323
+    '''
+    def camel_case_to_phrase(self, s):
+        prev = None
+        t = []
+        n = len(s)
+        i = 0
+
+        while i < n:
+            next_char = s[i+1] if i < n -1 else ''
+            c = s[i]
+            if prev is None:
+                t.append(c)
+            elif c.isupper() and prev.isupper():
+                if next_char.islower():
+                    t.append(' ')
+                    t.append(c)
+                else:
+                    t.append(c)
+            elif c.isupper() and not prev.isupper():
+                t.append(' ')
+                t.append(c)
+            else:
+                t.append(c)
+            prev = c
+            i = i +1
+
+        return "".join(t)
+
     def cleanup_json(self, json_string: str):
         desc_string = ""
         if "description" in json_string:
@@ -49,8 +81,10 @@ class pipeline_db_to_analyse(database_connection):
             desc_string = desc_string.replace("&ouml;", entities.html5["ouml;"])        # ö
             desc_string = desc_string.replace("&iuml;", entities.html5["iuml;"])        # ï
             desc_string = desc_string.replace("&nbsp;", entities.html5["nbsp;"])        # whitespace
-            desc_string = desc_string.replace("&rsquo;", "'")     
-            desc_string = desc_string.replace("&#39;", "'")     
+            desc_string = desc_string.replace("&rsquo;", "'")                           # '
+            desc_string = desc_string.replace("&#39;", "'")                             # '
+        
+        desc_string = self.camel_case_to_phrase(desc_string)
         return desc_string
 
     def get_descriptions(self, amount):
