@@ -12,9 +12,9 @@ def get_words_at_index(desciptions, index):
     for description in desciptions:
         word_list = nlp(description)
         token = word_list[index]
-        if token.is_stop or token.is_punct or token.is_space:
+        if token.is_stop or token.is_punct or token.is_space or token.is_bracket:
             continue
-        elif token.is_digit or token.is_alpha:
+        elif token.is_ascii:
             if word_list[index].text in word_dict:
                 word_dict[word_list[index].text] += 1
             else:
