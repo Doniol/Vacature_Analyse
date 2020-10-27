@@ -19,13 +19,13 @@ class database_connection:
                           database=self.database_name, user=self.user, password=self.password)
         self.cursor = self.connection.cursor()
     
-    def enter_command(self, command: str) -> None:
-        self.cursor.execute(command)
+    def enter_command(self, command: str, vars: tuple) -> None:
+        self.cursor.execute(command, vars)
         self.connection.commit()
     
-    def fetch_command(self, command: str) -> List[Tuple[Any]]:
-        self.cursor.execute(command)
+    def fetch_command(self, command: str, vars: tuple) -> List[Tuple[Any]]:
+        self.cursor.execute(command, vars)
         return self.cursor.fetchall()
     
     def clear_table(self, table_name: str) -> None:
-        self.enter_command("DELETE FROM {}".format(table_name))
+        self.enter_command("DELETE FROM {}".format(table_name), (tuple()))

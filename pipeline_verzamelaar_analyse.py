@@ -8,7 +8,7 @@ class pipeline_db_to_analyse(database_connection):
         database_connection.__init__(self, host, port, database_name, user, password)
 
     def get_json_all(self):
-        return self.fetch_command(command="SELECT json FROM raw_json")
+        return self.fetch_command(command="SELECT json FROM raw_json", vars=tuple())
 
 
     '''
