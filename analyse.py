@@ -11,14 +11,28 @@ def get_words_at_index(desciptions, index):
     word_dict = {}
     for description in desciptions:
         word_list = nlp(description)
-        token = word_list[index]
-        if token.is_stop or token.is_punct or token.is_space or token.is_bracket:
-            continue
-        elif token.is_ascii:
-            if word_list[index].text in word_dict:
-                word_dict[word_list[index].text] += 1
-            else:
-                word_dict[word_list[index].text] = 1
+        if word_list._.language["language"] == "nl":
+            token = word_list[index]
+            print(token.text)
+            if token.pos_ == "NOUN" or token.pos_ == "PROPN":
+                print("yes")
+                if word_list[index].text in word_dict:
+                    word_dict[word_list[index].text] += 1
+                else:
+                    word_dict[word_list[index].text] = 1
+
+
+
+
+            # if token.is_stop or token.is_punct or token.is_space:
+            #     print("no")
+            #     continue
+            # elif token.is_digit or token.is_alpha:
+            #     print("yes")
+            #     if word_list[index].text in word_dict:
+            #         word_dict[word_list[index].text] += 1
+            #     else:
+            #         word_dict[word_list[index].text] = 1
     return word_dict
 
 
@@ -33,14 +47,14 @@ def main():
     user_in = "pocuser"
     password_in = "pocuser"
     db_in = pipeline_in(host, port, database_in, user_in, password_in)
-    
+
     database_out = "innodb"
     user_out = "innouser"
     password_out = "innouser"
     db_out = pipeline_out(host, port, database_out, user_out, password_out)
     print("analysing")
-    input_descriptions = db_in.get_descriptions(1000)
-    # input_descriptions = [desc for desc in input_descriptions if nlp(desc)._.language["language"] == "nl"]  
+    input_descriptions = db_in.get_descriptions(100)
+    # input_descriptions = [desc for desc in input_descriptions if nlp(desc)._.language["language"] == "nl"]
     # # print(input_descriptions)
 
     # for desc in input_descriptions:
@@ -50,7 +64,7 @@ def main():
     #             continue
     #         elif token.is_digit or token.is_alpha:
     #             print(token.text)
-    
+
     words_at_3 = get_words_at_index(input_descriptions, 2)
     words_at_4 = get_words_at_index(input_descriptions, 3)
 
