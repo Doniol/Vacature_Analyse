@@ -21,7 +21,6 @@ def link_ids_to_entities(db, table_name, ids, count):
         for entry in table:
             if id == entry[0]:
                 corresponding_data.append(entry[1])
-                print(id, entry)
                 break
     return corresponding_data
 
