@@ -8,10 +8,16 @@ nlp = spacy.load('nl_core_news_sm')
 nlp.add_pipe(LanguageDetector(), name='language_detector', last=True)
 
 
-def get_words_at_index(desciptions):
+''' This functions calculates the word frequencies in each descriptions. It only
+    calculates if the POS of the token is a NOUN, a PROPN or a ADJ.
+
+descriptions:   A list of strings
+return:         A dict, containing words (str) as keys and word frequency (int) as values
+'''
+def get_words_at_index(descriptions: list) -> dict:
     word_dict = {}
     unworthy = {}
-    for description in desciptions:
+    for description in descriptions:
         word_list = nlp(description)
         if word_list._.language["language"] == "nl":
             for token in word_list:
@@ -26,7 +32,7 @@ def get_words_at_index(desciptions):
                         word_dict[token.lemma_] = 1
                 # print()
     # word_dict = []
-    # for description in desciptions:
+    # for description in descriptions:
     #     word_list = nlp(description)
     #     if word_list._.language["language"] == "nl":
     #         for token in word_list:
@@ -38,7 +44,12 @@ def get_words_at_index(desciptions):
     return word_dict
 
 
-def checker(inputs):
+''' This functions prints the lemma, the POS and the tag of a token, but only if it's
+    the desired word.
+
+inputs:         A dict, containing words (str) as keys and word frequency (int) as values
+'''
+def checker(inputs: dict):
     words = []
     for key in inputs:
         print(key.lemma_)
@@ -50,13 +61,22 @@ def checker(inputs):
         print(word.lemma_, word.pos_, word.tag_)
 
 
-def get_details(things):
+''' This functions prints the 'text' and the label of the entity annotations from the tokens.
+    It also explains what the label means.
+
+things:         A list of strings
+'''
+def get_details(things: list):
     for text in things:
         doc = nlp(text)
         for ent in doc.ents:
             print(ent.text, ent.label_, spacy.explain(ent.label_))
 
 
+''' This functions initializes the pipelines, grabs the descriptions from the
+    database, analyses them and sends the output of the analyse to the
+    INNO-database.
+'''
 def main():
     host = "weert.lucimmerzeel.nl"
     port = "5432"
