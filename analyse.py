@@ -90,12 +90,9 @@ def main():
     password_out = "innouser"
     db_out = pipeline_out(host, port, database_out, user_out, password_out)
     print("analysing")
-<<<<<<< HEAD
-=======
     input_descriptions = db_in.get_descriptions(-1)
     # input_descriptions = [desc for desc in input_descriptions if nlp(desc)._.language["language"] == "nl"]
     # # print(input_descriptions)
->>>>>>> f26f23f65fdac2ea44e82490a7118afdd1006e7c
 
     lem = nlp("Zie jij de connectie met VWT? De wereld van Fiber to the Home is volop in ontwikkeling en verdient binnen VolkerWessels Telecom grote aandacht. Sinds een aantal jaar zijn wij (opnieuw) actief in de aanleg van FttH netwerken voor onze opdrachtgevers in de verschillende grote steden van Nederland. Ons werkpakket blijft uitbreiden, verantwoordelijkheden verschuiven en werkprocessen veranderen. Daarmee wordt onze rol in het traject nóg groter. Hierdoor zijn wij op zoek zijn naar een Projectmanager voor het opzetten van een nieuwe afdeling netbeheer! In deze rol ben je leidinggevend aan een vijftal kwaliteits- en operationele collega’s.")
 # finding lemma for each word
@@ -105,36 +102,18 @@ def main():
     # # input_descriptions = [desc for desc in input_descriptions if nlp(desc)._.language["language"] == "nl"]
     # # # print(input_descriptions)
 
-<<<<<<< HEAD
-    # # for desc in input_descriptions:
-    # #     doc = nlp(desc)
-    # #     for token in doc:
-    # #         if token.is_stop or token.is_punct or token.is_space:
-    # #             continue
-    # #         elif token.is_digit or token.is_alpha:
-    # #             print(token.text)
-=======
     words_at_3 = get_words_at_index(input_descriptions[0:2000])
     # checker(words_at_3)
->>>>>>> f26f23f65fdac2ea44e82490a7118afdd1006e7c
 
     # words_at_3 = get_words_at_index(input_descriptions, 2)
     # words_at_4 = get_words_at_index(input_descriptions, 3)
 
-    # db_out.clear_all_tables()
+    # db_out.clear_all_tables(True)
 
-<<<<<<< HEAD
-    # affirmation = input("Continue?")
-
-    # print("Uploading...")
-    # db_out.add_dict(words_at_3, "institute_ict")
-    # db_out.add_dict(words_at_4, "institute_marketing")
-=======
     print("Uploading...")
     db_out.add_dict(words_at_3, "institute_ict")
 
     # get_details(input_descriptions)
->>>>>>> f26f23f65fdac2ea44e82490a7118afdd1006e7c
 
 
 main()

@@ -50,13 +50,19 @@ class pipeline_analyse_to_db(database_connection):
             self.enter_command("INSERT INTO {0}s_ ({0}) VALUES (%s)".format(attribute_name), (value,))
         return self.fetch_command("SELECT {0}_id FROM {0}s_ WHERE {0} = %s".format(attribute_name), (value,))[0][0]
 
-    def clear_all_tables(self):
-        ''' Function for clearing all database tables
+    def clear_all_tables(self, reset_increment: bool=False):
+        ''' Function for clearing all database tables and, if selected, resetting the AUTO_INCREMENT valeus
         '''
         self.clear_table("entries_")
         self.clear_table("dates_")
         self.clear_table("institutes_")
         self.clear_table("words_")
+
+        if reset_increment:
+            self.enter_command("ALTER TABLE entries_ AUTO_INCREMENT = 1")
+            self.enter_command("ALTER TABLE dates_ AUTO_INCREMENT = 1")
+            self.enter_command("ALTER TABLE institutes_ AUTO_INCREMENT = 1")
+            self.enter_command("ALTER TABLE words_ AUTO_INCREMENT = 1")
 
 
 class pipeline_db_to_interface(database_connection):
