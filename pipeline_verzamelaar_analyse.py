@@ -4,18 +4,34 @@ from html import entities
 
 
 class pipeline_db_to_analyse(database_connection):
+    ''' This function initializes the pipeline object.
+
+    host:           The name of the host, string
+    port:           The port number, string
+    database_name:  The name of the database, string
+    user:           The name of the user, string
+    password:       The password of the user, string
+    '''
     def __init__(self, host: str, port: str, database_name: str, user: str, password: str) -> None:
         database_connection.__init__(self, host, port, database_name, user, password)
 
-    def get_json_all(self):
+
+    ''' This function gets all the JSON-strings from the database.
+
+    return:         A list of JSON-strings
+    '''
+    def get_json_all(self) -> list:
         return self.fetch_command(command="SELECT json FROM raw_json", vars=tuple())
 
 
-    '''
+    ''' This function splits camelCase words into seperate words.
+    s:              The words or the whole sentence, string
+    return:         The new string without the camelCase
+
     Author: Prof Mo
     Source: https://stackoverflow.com/a/42774323
     '''
-    def camel_case_to_phrase(self, s):
+    def camel_case_to_phrase(self, s: str) -> str:
         prev = None
         t = []
         n = len(s)
@@ -42,7 +58,15 @@ class pipeline_db_to_analyse(database_connection):
 
         return "".join(t)
 
-    def cleanup_json(self, json_string: str):
+
+    ''' This function removes from the description of the JSON the HTML-tags (<br>, </br>, 
+        <p>, etc.) and replaces the character references (&euml;, &egrave;, etc) with their
+        UTF-8 counterpart.
+    
+    json_string:    The JSON-file, as a string
+    return:         The cleaned up description, string
+    '''
+    def cleanup_json(self, json_string: str) -> str:
         desc_string = ""
         if "description" in json_string:
             desc_string = json.loads(json_string)["description"]
@@ -87,7 +111,11 @@ class pipeline_db_to_analyse(database_connection):
         desc_string = self.camel_case_to_phrase(desc_string)
         return desc_string
 
-    def get_descriptions(self, amount):
+    ''' This function return the descriptions.
+    amount:         The amount of descriptions you want, int
+    return:         A list of descriptions
+    '''
+    def get_descriptions(self, amount: int) -> list:
         descriptions = []
         print("Grabbing jsons...", end="")
         jsons = self.get_json_all()
