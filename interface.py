@@ -10,16 +10,16 @@ from PIL import Image
 from os import path
 import matplotlib.pyplot as plt
 
-from typing import List
+from typing import List, Tuple, Dict
 
 # database connection
 from pipeline_analyse_interface import pipeline_db_to_interface as pipeline
 
 
-def split_dict(data_dict):
+def split_dict(data_dict: Dict[int, Dict[str, int]]):
     ''' This function splits the dictionary into two strings and sorts the keys according to the amount
 
-    data_dict: a dictionary with words and the amount of times it's used
+    data_dict: a dictionary with every entry in it, the id is first the second dict contains the word_id, word_count, date_id and institute_id
     return: a list of words and a list of amounts
     '''
     data_dict_sorted = sorted(data_dict.items(), key=lambda x: x[1]["word_count"], reverse=True)
@@ -31,9 +31,12 @@ def split_dict(data_dict):
     return words, amounts
 
 
-def link_ids_to_entities(db, table_name, ids, count):
+def link_ids_to_entities(db: pipeline, table_name: str, ids: List[int]):
     ''' This function generates a lookup table to match id's with their corresponding name
     
+    db: The database you get the information from
+    table_name: A string with the name of the table you want to get
+    ids: A list of the ids you want to get actual value of. 
     return: a list of the corresponding data in the same order as the entries
     '''
     table = db.get_lookup_table(table_name)
@@ -94,7 +97,7 @@ def create_show_pie(desired_instute: str, data_words: List[str], data_amounts: L
     fig.show()    
 
 
-def create_show_cloud(data_words: List[str], data_amounts: List[int], show_words: int= 20):
+def create_show_cloud(data_words: List[str], data_amounts: List[int], show_words: int= 10):
     ''' This function creates the wordcloud and shows it
 
     data_words: a list of strings with the words
@@ -121,13 +124,10 @@ def main():
     password = "innouser"
     db = pipeline(host, port, database_name, user, password)
     data = db.get_dict(db.get_entries(institute=desired_instute))
-
     data_word_ids, data_amounts = split_dict(data)
-
-    data_words = link_ids_to_entities(db, "words_", data_word_ids, data_amounts)
-
+    data_words = link_ids_to_entities(db, "words_", data_word_ids)
     if not data_words:
-        data_word.append("No data")
+        data_words.append("No data")
         data_amounts.append("No data")
     
     # show pie chart and table
