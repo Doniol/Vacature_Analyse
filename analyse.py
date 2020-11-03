@@ -3,7 +3,7 @@ from pipeline_analyse_interface import pipeline_analyse_to_db as pipeline_out
 import spacy
 from spacy_langdetect import LanguageDetector
 from html import entities
-nlp = spacy.load('nl_core_news_sm')
+nlp = spacy.load('nl_core_news_md')
 nlp.add_pipe(LanguageDetector(), name='language_detector', last=True)
 
 
@@ -53,28 +53,33 @@ def main():
     password_out = "innouser"
     db_out = pipeline_out(host, port, database_out, user_out, password_out)
     print("analysing")
-    input_descriptions = db_in.get_descriptions(100)
-    # input_descriptions = [desc for desc in input_descriptions if nlp(desc)._.language["language"] == "nl"]
-    # # print(input_descriptions)
 
-    # for desc in input_descriptions:
-    #     doc = nlp(desc)
-    #     for token in doc:
-    #         if token.is_stop or token.is_punct or token.is_space:
-    #             continue
-    #         elif token.is_digit or token.is_alpha:
-    #             print(token.text)
+    lem = nlp("Zie jij de connectie met VWT? De wereld van Fiber to the Home is volop in ontwikkeling en verdient binnen VolkerWessels Telecom grote aandacht. Sinds een aantal jaar zijn wij (opnieuw) actief in de aanleg van FttH netwerken voor onze opdrachtgevers in de verschillende grote steden van Nederland. Ons werkpakket blijft uitbreiden, verantwoordelijkheden verschuiven en werkprocessen veranderen. Daarmee wordt onze rol in het traject nóg groter. Hierdoor zijn wij op zoek zijn naar een Projectmanager voor het opzetten van een nieuwe afdeling netbeheer! In deze rol ben je leidinggevend aan een vijftal kwaliteits- en operationele collega’s.")
+# finding lemma for each word
+    for word in lem:
+        print(word.text,word.lemma_)
+    # input_descriptions = db_in.get_descriptions(100)
+    # # input_descriptions = [desc for desc in input_descriptions if nlp(desc)._.language["language"] == "nl"]
+    # # # print(input_descriptions)
 
-    words_at_3 = get_words_at_index(input_descriptions, 2)
-    words_at_4 = get_words_at_index(input_descriptions, 3)
+    # # for desc in input_descriptions:
+    # #     doc = nlp(desc)
+    # #     for token in doc:
+    # #         if token.is_stop or token.is_punct or token.is_space:
+    # #             continue
+    # #         elif token.is_digit or token.is_alpha:
+    # #             print(token.text)
 
-    db_out.clear_all_tables()
+    # words_at_3 = get_words_at_index(input_descriptions, 2)
+    # words_at_4 = get_words_at_index(input_descriptions, 3)
 
-    affirmation = input("Continue?")
+    # db_out.clear_all_tables()
 
-    print("Uploading...")
-    db_out.add_dict(words_at_3, "institute_ict")
-    db_out.add_dict(words_at_4, "institute_marketing")
+    # affirmation = input("Continue?")
+
+    # print("Uploading...")
+    # db_out.add_dict(words_at_3, "institute_ict")
+    # db_out.add_dict(words_at_4, "institute_marketing")
 
 
 main()
