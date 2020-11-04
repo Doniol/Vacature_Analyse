@@ -10,17 +10,18 @@ from PIL import Image
 from os import path
 import matplotlib.pyplot as plt
 
-from typing import List, Tuple, Dict
+from typing import List, Tuple, Dict, Any
 
 # database connection
 from pipeline_analyse_interface import pipeline_db_to_interface as pipeline
 
 
-def split_dict(data_dict: Dict[int, Dict[str, int]]):
+def split_dict(data_dict: Dict[int, Dict[str, int]]) -> Tuple[List[str], List[int]]:
     ''' This function splits the dictionary into two strings and sorts the keys according to the amount
 
-    data_dict: a dictionary with every entry in it, the id is first the second dict contains the word_id, word_count, date_id and institute_id
-    return: a list of words and a list of amounts
+    data_dict: A dictionary with every entry in it, the id is the key and the value is a dict, 
+     the dict contains the word_id, word_count, date_id and institute_id
+    return: A list of words and a list of amounts
     '''
     data_dict_sorted = sorted(data_dict.items(), key=lambda x: x[1]["word_count"], reverse=True)
     words = []
@@ -31,13 +32,13 @@ def split_dict(data_dict: Dict[int, Dict[str, int]]):
     return words, amounts
 
 
-def link_ids_to_entities(db: pipeline, table_name: str, ids: List[int]):
+def link_ids_to_entities(db: pipeline, table_name: str, ids: List[int]) -> List[Any]:
     ''' This function generates a lookup table to match id's with their corresponding name
     
     db: The database you get the information from
     table_name: A string with the name of the table you want to get
-    ids: A list of the ids you want to get actual value of. 
-    return: a list of the corresponding data in the same order as the entries
+    ids: A list of the ids you want to get actual value of
+    return: A list of the corresponding data in the same order as the entries
     '''
     table = db.get_lookup_table(table_name)
     corresponding_data = []
@@ -48,11 +49,11 @@ def link_ids_to_entities(db: pipeline, table_name: str, ids: List[int]):
                 break
     return corresponding_data
 
-def dict_to_string(data_words: List[str], data_amounts: List[int]):
+def dict_to_string(data_words: List[str], data_amounts: List[int]) -> str:
     ''' This function makes the dictionary into a string where each word is placed the amount of time its used
 
-    data_words: a list of strings with the words
-    data_amounts: a list containing the amount of usages
+    data_words: A list of strings with the words
+    data_amounts: A list containing the amount of usages
     return: The string with every word put in as its frequency
     '''
     converted_to_string = ""
@@ -61,12 +62,12 @@ def dict_to_string(data_words: List[str], data_amounts: List[int]):
     return converted_to_string
 
 
-def create_show_table(desired_instute: str, data_words: List[str], data_amounts: List[int]):
+def create_show_table(desired_instute: str, data_words: List[str], data_amounts: List[int]) -> None:
     ''' This function creates the table and shows it
 
-    desired_institute: a string with the institu name
-    data_words: a list of strings with the words
-    data_amounts: a list containing the amount of usages
+    desired_institute: A string with the institu name
+    data_words: A list of strings with the words
+    data_amounts: A list containing the amount of usages
     '''
     fig = go.Figure(data=[go.Table(header=dict(values=['Kernwoord', 'Komt voor']),
             cells=dict(values=[data_words, data_amounts]))
@@ -78,13 +79,13 @@ def create_show_table(desired_instute: str, data_words: List[str], data_amounts:
     fig.show()    
 
 
-def create_show_pie(desired_instute: str, data_words: List[str], data_amounts: List[int], slices: int =10):
+def create_show_pie(desired_instute: str, data_words: List[str], data_amounts: List[int], slices: int=10) -> None:
     ''' This function creates the pie chart and shows it
 
-    desired_institute: a string with the institu name
-    data_words: a list of strings with the words
-    data_amounts: a list containing the amount of usages
-    slices: an integer to determing the amount of words you want to show
+    desired_institute: A string with the institute name
+    data_words: A list of strings with the words
+    data_amounts: A list containing the amount of usages
+    slices: An integer to determing the amount of words you want to show
     '''
     excess_amount = sum(data_amounts[slices+1:])
     pie_words = data_words[:slices]
@@ -97,12 +98,12 @@ def create_show_pie(desired_instute: str, data_words: List[str], data_amounts: L
     fig.show()    
 
 
-def create_show_cloud(data_words: List[str], data_amounts: List[int], show_words: int= 10):
+def create_show_cloud(data_words: List[str], data_amounts: List[int], show_words: int=10) -> None:
     ''' This function creates the wordcloud and shows it
 
-    data_words: a list of strings with the words
-    data_amounts: a list containing the amount of usages
-    show_words: integer to determine the amount of words to show in the word cloud
+    data_words: A list of strings with the words
+    data_amounts: A list containing the amount of usages
+    show_words: A integer to determine the amount of words to show in the word cloud
     '''
     wc = WordCloud(collocations=False, background_color="white", max_words= show_words)
     wc.generate(dict_to_string(data_words, data_amounts))

@@ -7,14 +7,15 @@ from html import entities
 nlp = spacy.load('nl_core_news_md')
 nlp.add_pipe(LanguageDetector(), name='language_detector', last=True)
 
+from typing import List, Tuple, Dict
 
-''' This functions calculates the word frequencies in each descriptions. It only
-    calculates if the POS of the token is a NOUN, a PROPN or a ADJ.
+def get_words_at_index(descriptions: List[str]) -> Dict[str, int]:
+    ''' This functions calculates the word frequencies in each descriptions.
+    The function only calculates the amount of times a word is used if the POS of the token is a NOUN, a PROPN or a ADJ.
 
-descriptions:   A list of strings
-return:         A dict, containing words (str) as keys and word frequency (int) as values
-'''
-def get_words_at_index(descriptions: list) -> dict:
+    descriptions: A list of strings containing the descriptions of the job offers
+    return: A dict, containing words (str) as keys and word frequency (int) as values
+    '''
     word_dict = {}
     unworthy = {}
     for description in descriptions:
@@ -44,12 +45,12 @@ def get_words_at_index(descriptions: list) -> dict:
     return word_dict
 
 
-''' This functions prints the lemma, the POS and the tag of a token, but only if it's
-    the desired word.
-
-inputs:         A dict, containing words (str) as keys and word frequency (int) as values
-'''
 def checker(inputs: dict):
+    ''' This functions prints the lemma, the POS and the tag of a token, but only if it's
+    a desired word.
+
+    inputs: A dict, containing words (str) as keys and word frequency (int) as values
+    '''
     words = []
     for key in inputs:
         print(key.lemma_)
@@ -61,22 +62,19 @@ def checker(inputs: dict):
         print(word.lemma_, word.pos_, word.tag_)
 
 
-''' This functions prints the 'text' and the label of the entity annotations from the tokens.
+def get_details(things: list):
+    ''' This functions prints the 'text' and the label of the entity annotations from the tokens.
     It also explains what the label means.
 
-things:         A list of strings
-'''
-def get_details(things: list):
+    things: A list of strings
+    '''
     for text in things:
         doc = nlp(text)
         for ent in doc.ents:
             print(ent.text, ent.label_, spacy.explain(ent.label_))
 
 
-''' This functions initializes the pipelines, grabs the descriptions from the
-    database, analyses them and sends the output of the analyse to the
-    INNO-database.
-'''
+
 def main():
     host = "weert.lucimmerzeel.nl"
     port = "5432"

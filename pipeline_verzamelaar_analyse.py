@@ -1,37 +1,36 @@
 from pipeline_base import database_connection
 import json
 from html import entities
+from typing import List, Tuple
 
 
 class pipeline_db_to_analyse(database_connection):
-    ''' This function initializes the pipeline object.
-
-    host:           The name of the host, string
-    port:           The port number, string
-    database_name:  The name of the database, string
-    user:           The name of the user, string
-    password:       The password of the user, string
+    ''' A class for sending data between the first database and the analysis tool
     '''
     def __init__(self, host: str, port: str, database_name: str, user: str, password: str) -> None:
+        ''' A function for initialising the pipeline
+
+        host: A link to the host of the database
+        port: The port on which the database is hosted
+        database_name: The name of the desired database
+        user: The username necessary to login into the database
+        password: The password necessary to login into the database
+        '''
         database_connection.__init__(self, host, port, database_name, user, password)
 
+    def get_json_all(self) -> List[Tuple[str]]:
+        ''' This function returns all the JSON-strings from the database
 
-    ''' This function gets all the JSON-strings from the database.
-
-    return:         A list of JSON-strings
-    '''
-    def get_json_all(self) -> list:
+        return: A list of JSON-strings
+        '''
         return self.fetch_command(command="SELECT json FROM raw_json", vars=tuple())
 
-
-    ''' This function splits camelCase words into seperate words.
-    s:              The words or the whole sentence, string
-    return:         The new string without the camelCase
-
-    Author: Prof Mo
-    Source: https://stackoverflow.com/a/42774323
-    '''
     def camel_case_to_phrase(self, s: str) -> str:
+        ''' This function splits camelCase words into seperate words
+
+        s: The word or the whole sentence
+        return: The new string without the camelCase
+        '''
         prev = None
         t = []
         n = len(s)
@@ -58,15 +57,15 @@ class pipeline_db_to_analyse(database_connection):
 
         return "".join(t)
 
-
-    ''' This function removes from the description of the JSON the HTML-tags (<br>, </br>, 
-        <p>, etc.) and replaces the character references (&euml;, &egrave;, etc) with their
-        UTF-8 counterpart.
-    
-    json_string:    The JSON-file, as a string
-    return:         The cleaned up description, string
-    '''
     def cleanup_json(self, json_string: str) -> str:
+        ''' This function removes HTML-tags from the JSON strings
+
+        The function removes HTML tags (<br>, </br>, <p>, etc.) from the JSON string and replaces the character
+         references (&euml;, &egrave;, etc)with their UTF-8 counterpart.
+        
+        json_string: The JSON-file, as a string
+        return: The cleaned up description
+        '''
         desc_string = ""
         if "description" in json_string:
             desc_string = json.loads(json_string)["description"]
@@ -111,11 +110,12 @@ class pipeline_db_to_analyse(database_connection):
         desc_string = self.camel_case_to_phrase(desc_string)
         return desc_string
 
-    ''' This function return the descriptions.
-    amount:         The amount of descriptions you want, int
-    return:         A list of descriptions
-    '''
-    def get_descriptions(self, amount: int) -> list:
+    def get_descriptions(self, amount: int) -> List[str]:
+        ''' This function returns the desired amount of job-offer descriptions
+
+        amount: The desired amount of descriptions
+        return: A list of descriptions
+        '''
         descriptions = []
         print("Grabbing jsons...", end="")
         jsons = self.get_json_all()

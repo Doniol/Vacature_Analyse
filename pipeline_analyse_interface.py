@@ -50,8 +50,10 @@ class pipeline_analyse_to_db(database_connection):
             self.enter_command("INSERT INTO {0}s_ ({0}) VALUES (%s)".format(attribute_name), (value,))
         return self.fetch_command("SELECT {0}_id FROM {0}s_ WHERE {0} = %s".format(attribute_name), (value,))[0][0]
 
-    def clear_all_tables(self, reset_increment: bool=False):
+    def clear_all_tables(self, reset_increment: bool=False) -> None:
         ''' Function for clearing all database tables and, if selected, resetting the AUTO_INCREMENT valeus
+
+        reset_increment: A bool to determine wether the ID's should start at 1 again
         '''
         self.clear_table("entries_")
         self.clear_table("dates_")
@@ -80,9 +82,9 @@ class pipeline_db_to_interface(database_connection):
         database_connection.__init__(self, host, port, database_name, user, password)
 
     def get_entity_id(self, attribute_name: str, value: str) -> int:
-        ''' Returns the id of the selected attribute containing the given value
+        ''' Returns the ID of the selected attribute containing the given value
 
-        attribute_name: The name of the attribute that is to be fetched, we can determine the table-name and id-name of the table using this
+        attribute_name: The name of the attribute that is to be fetched, we can determine the table-name and ID-name of the table using this
         value: The value that the selected attribute needs to contain
         return: The ID of the selected attribute with the given value
         '''
