@@ -83,12 +83,12 @@ def main():
     password_in = "pocuser"
     db_in = pipeline_in(host, port, database_in, user_in, password_in)
 
-    database_out = "innodb"
+    database_out = "InnoDB-test"
     user_out = "innouser"
     password_out = "innouser"
     db_out = pipeline_out(host, port, database_out, user_out, password_out)
     print("analysing")
-    input_descriptions = db_in.get_descriptions(-1)
+    input_descriptions = db_in.get_descriptions(10)
     # input_descriptions = [desc for desc in input_descriptions if nlp(desc)._.language["language"] == "nl"]
     # # print(input_descriptions)
 

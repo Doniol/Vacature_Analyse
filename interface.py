@@ -120,13 +120,13 @@ def main():
 
     host = "weert.lucimmerzeel.nl"
     port = "5432"
-    database_name = "innodb"
+    database_name = "InnoDB-test"
     user = "innouser"
     password = "innouser"
     db = pipeline(host, port, database_name, user, password)
     data = db.get_dict(db.get_entries(institute=desired_instute))
     data_word_ids, data_amounts = split_dict(data)
-    data_words = link_ids_to_entities(db, "words_", data_word_ids)
+    data_words = link_ids_to_entities(db, "words", data_word_ids)
     if not data_words:
         data_words.append("No data")
         data_amounts.append("No data")

@@ -23,12 +23,13 @@ class pipeline_analyse_to_db(database_connection):
         count: The amount of times that that word has been counted
         institute: The institute that this entry belongs to
         '''
-        current_time = datetime.datetime.now()
-        date = current_time.strftime("%Y") + "-" + current_time.strftime("%m")
-        date_id = self.add_unique_entry("date", date)
+
+        current_date = datetime.date.today()
+        current_date = datetime.date(current_date.year, current_date.month, 1)
+        date_id = self.add_unique_entry("date", current_date)
         word_id = self.add_unique_entry("word", word)
         institute_id = self.add_unique_entry("institute", institute)
-        self.enter_command("INSERT INTO entries_ {} VALUES (%s, %s, %s, %s)".format("(word_id, word_count, date_id, institute_id)"), (word_id, count, date_id, institute_id,))
+        self.enter_command("INSERT INTO entries {} VALUES (%s, %s, %s, %s)".format("(word_id, word_count, date_id, institute_id)"), (word_id, count, date_id, institute_id,))
 
     def add_dict(self, words: Dict[str, int], institute: str) -> None:
         ''' Stores the given dict in the database as seperate entries
@@ -46,25 +47,25 @@ class pipeline_analyse_to_db(database_connection):
         value: The value that is te be stored
         return: The ID of the newly created entry
         '''
-        if self.fetch_command("SELECT * FROM {0}s_ WHERE {0} = %s".format(attribute_name), (value,)) == []:
-            self.enter_command("INSERT INTO {0}s_ ({0}) VALUES (%s)".format(attribute_name), (value,))
-        return self.fetch_command("SELECT {0}_id FROM {0}s_ WHERE {0} = %s".format(attribute_name), (value,))[0][0]
+        if self.fetch_command("SELECT * FROM {0}s WHERE {0} = %s".format(attribute_name), (value,)) == []:
+            self.enter_command("INSERT INTO {0}s ({0}) VALUES (%s)".format(attribute_name), (value,))
+        return self.fetch_command("SELECT {0}_id FROM {0}s WHERE {0} = %s".format(attribute_name), (value,))[0][0]
 
     def clear_all_tables(self, reset_increment: bool=False) -> None:
         ''' Function for clearing all database tables and, if selected, resetting the AUTO_INCREMENT valeus
 
         reset_increment: A bool to determine wether the ID's should start at 1 again
         '''
-        self.clear_table("entries_")
-        self.clear_table("dates_")
-        self.clear_table("institutes_")
-        self.clear_table("words_")
+        self.clear_table("entries")
+        self.clear_table("dates")
+        self.clear_table("institutes")
+        self.clear_table("words")
 
         if reset_increment:
-            self.enter_command("ALTER TABLE entries_ AUTO_INCREMENT = 1")
-            self.enter_command("ALTER TABLE dates_ AUTO_INCREMENT = 1")
-            self.enter_command("ALTER TABLE institutes_ AUTO_INCREMENT = 1")
-            self.enter_command("ALTER TABLE words_ AUTO_INCREMENT = 1")
+            self.enter_command("ALTER TABLE entries AUTO_INCREMENT = 1")
+            self.enter_command("ALTER TABLE dates AUTO_INCREMENT = 1")
+            self.enter_command("ALTER TABLE institutes AUTO_INCREMENT = 1")
+            self.enter_command("ALTER TABLE words AUTO_INCREMENT = 1")
 
 
 class pipeline_db_to_interface(database_connection):
@@ -88,7 +89,7 @@ class pipeline_db_to_interface(database_connection):
         value: The value that the selected attribute needs to contain
         return: The ID of the selected attribute with the given value
         '''
-        return self.fetch_command("SELECT {0}_id FROM {0}s_ WHERE {0} = %s".format(attribute_name), (value,))[0][0]
+        return self.fetch_command("SELECT {0}_id FROM {0}s WHERE {0} = %s".format(attribute_name), (value,))[0][0]
 
     def get_entries(self, date: str=None, word: str=None, institute: str=None) -> List[Tuple[int, int, int, int, int]]:
         ''' Returns all entries that correspond to whatever requirements have been provided
@@ -105,7 +106,7 @@ class pipeline_db_to_interface(database_connection):
             query += self.add_to_query(query, "word_id", self.get_entity_id("word", word))
         if institute:
             query += self.add_to_query(query, "institute_id", self.get_entity_id("institute", institute))
-        return self.fetch_command("SELECT * FROM entries_" + query, tuple()) ## List[Tuple[entry_id, word_id, word_count, date_id, institute_id]]
+        return self.fetch_command("SELECT * FROM entries" + query, tuple()) ## List[Tuple[entry_id, word_id, word_count, date_id, institute_id]]
     
     def add_to_query(self, query: str, attribute_name: str, attribute_id: int) -> str:
         ''' Returns the given query combined with a new command
@@ -134,7 +135,7 @@ class pipeline_db_to_interface(database_connection):
         end_date_id = self.get_entity_id("date", start_date)
         data = {}
         for date_id in range(end_date_id, start_date_id + 1):
-            actual_date = self.fetch_command("SELECT date FROM dates_ WHERE date_id = %s", (date_id,))
+            actual_date = self.fetch_command("SELECT date FROM dates WHERE date_id = %s", (date_id,))
             data[actual_date] = self.get_entries(date=actual_date, word=word, institute=institute)
         return data
         
@@ -152,8 +153,8 @@ class pipeline_db_to_interface(database_connection):
         data_entries: A list of tuples containing each entry
         return: A dict containing a dict for each entry_id, containing all of it's data
         '''
-        dates_all_info = self.get_lookup_table("dates_")
-        words_all_info = self.get_lookup_table("words_")
+        dates_all_info = self.get_lookup_table("dates")
+        words_all_info = self.get_lookup_table("words")
 
         entry_dict = {}
 
