@@ -2,6 +2,7 @@ from pipeline_base import database_connection
 import json
 from html import entities
 from typing import List, Tuple
+import re
 
 
 class pipeline_db_to_analyse(database_connection):
@@ -82,30 +83,27 @@ class pipeline_db_to_analyse(database_connection):
                     break
             desc_string = desc_string[index:]
         
-        for i in desc_string:
-            # Replace every instance of <p>, </p>, etc with empty string ""
-            desc_string = desc_string.replace("<p>", " ")
-            desc_string = desc_string.replace("</p>", " ")
-            desc_string = desc_string.replace("<em>", " ")
-            desc_string = desc_string.replace("</em>", " ")
-            desc_string = desc_string.replace("<li>", " ")
-            desc_string = desc_string.replace("</li>", " ")
-            desc_string = desc_string.replace("<ul>", " ")
-            desc_string = desc_string.replace("</ul>", " ")
-            desc_string = desc_string.replace("<strong>", " ")
-            desc_string = desc_string.replace("</strong>", " ")
-            desc_string = desc_string.replace("<br />", " ")
+        # Regex or Regular Expression
+        # . means every character except newline
+        # * matches zero or unlimited times
+        # ? matches zero or once
+        # This expression only removes the tags: it doesn't matches the text between them
+        tmp = re.compile("<.*?>")
 
-            # Replace the HTML-chars with UTF-8 chars
-            desc_string = desc_string.replace("&egrave;", entities.html5["egrave;"])    # è
-            desc_string = desc_string.replace("&eacute;", entities.html5["eacute;"])    # é
-            desc_string = desc_string.replace("&euml;", entities.html5["euml;"])        # ë
-            desc_string = desc_string.replace("&ecirc;", entities.html5["ecirc;"])      # ê
-            desc_string = desc_string.replace("&ouml;", entities.html5["ouml;"])        # ö
-            desc_string = desc_string.replace("&iuml;", entities.html5["iuml;"])        # ï
-            desc_string = desc_string.replace("&nbsp;", entities.html5["nbsp;"])        # whitespace
-            desc_string = desc_string.replace("&rsquo;", "'")                           # '
-            desc_string = desc_string.replace("&#39;", "'")                             # '
+        # FInd all matching substrings and replace them with an empty string
+        desc_string = re.sub(tmp, "", desc_string)
+
+        # Replace the HTML-chars with UTF-8 chars
+        desc_string = desc_string.replace("&egrave;", entities.html5["egrave;"])    # è
+        desc_string = desc_string.replace("&eacute;", entities.html5["eacute;"])    # é
+        desc_string = desc_string.replace("&euml;", entities.html5["euml;"])        # ë
+        desc_string = desc_string.replace("&ecirc;", entities.html5["ecirc;"])      # ê
+        desc_string = desc_string.replace("&ouml;", entities.html5["ouml;"])        # ö
+        desc_string = desc_string.replace("&iuml;", entities.html5["iuml;"])        # ï
+        desc_string = desc_string.replace("&nbsp;", entities.html5["nbsp;"])        # whitespace
+        desc_string = desc_string.replace("&rsquo;", "'")                           # '
+        desc_string = desc_string.replace("&#39;", "'")                             # '
+        desc_string = desc_string.replace("’", "'")                                 # '
         
         desc_string = self.camel_case_to_phrase(desc_string)
         return desc_string
