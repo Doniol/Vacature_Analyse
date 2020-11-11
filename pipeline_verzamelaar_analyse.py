@@ -19,6 +19,14 @@ class pipeline_db_to_analyse(database_connection):
         '''
         database_connection.__init__(self, host, port, database_name, user, password)
 
+        # Regex or Regular Expression
+        # . means every character except newline
+        # * matches zero or unlimited times
+        # ? matches zero or once
+        # This expression only matches the tags: it doesn't matches the text between them
+        self.html_tag = re.compile("<.*?>")
+
+
     def get_json_all(self) -> List[Tuple[str]]:
         ''' This function returns all the JSON-strings from the database
 
@@ -31,6 +39,9 @@ class pipeline_db_to_analyse(database_connection):
 
         s: The word or the whole sentence
         return: The new string without the camelCase
+
+        Author: Prof Mo
+        Source: https://stackoverflow.com/a/42774323
         '''
         prev = None
         t = []
@@ -82,16 +93,9 @@ class pipeline_db_to_analyse(database_connection):
                     index = i+1
                     break
             desc_string = desc_string[index:]
-        
-        # Regex or Regular Expression
-        # . means every character except newline
-        # * matches zero or unlimited times
-        # ? matches zero or once
-        # This expression only removes the tags: it doesn't matches the text between them
-        tmp = re.compile("<.*?>")
 
         # FInd all matching substrings and replace them with an empty string
-        desc_string = re.sub(tmp, "", desc_string)
+        desc_string = re.sub(self.html_tag, "", desc_string)
 
         # Replace the HTML-chars with UTF-8 chars
         desc_string = desc_string.replace("&egrave;", entities.html5["egrave;"])    # è
