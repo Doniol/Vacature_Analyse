@@ -15,7 +15,7 @@ user_in = "pocuser"
 password_in = "pocuser"
 db_in = pipeline_in(host, port, database_in, user_in, password_in)
 
-dataset = db_in.get_descriptions(100)
+dataset = db_in.get_descriptions(1000)
 # dataset = [
 #     "Dit is een test.",
 #     "In deze test zitten strings.",
@@ -27,10 +27,11 @@ for d in dataset:
     doc = nlp(d)
     tmp = []
     for token in doc:
-         if token.pos_ == "NOUN" or token.pos_ == "PROPN" or token.pos_ == "ADJ":
+        if token.is_stop or token.is_punct or token.is_bracket:
+            continue
+        elif token.pos_ == "NOUN" or token.pos_ == "PROPN" or token.pos_ == "ADJ":
             tmp.append(token.text)
     tokens.append(" ".join(tmp))
-
 
 
 tfIdfVectorizer=TfidfVectorizer(use_idf=True)
