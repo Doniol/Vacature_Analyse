@@ -1,0 +1,48 @@
+ Functie­omschrijving
+
+Het Openbaar Ministerie kan niet zonder geavanceerde informatietechnologie. Stel je voor dat een officier van justitie niet kan inloggen, waardoor een zitting moet worden opgeschort. Of dat er een storing is in de DNA-database, nét wanneer we een dader willen identificeren. Daarom zorg jij er als netwerkbeheerder / ICT-specialist vanuit Utrecht voor dat ons netwerk altijd optimaal functioneert.
+
+Domein IT is volop in ontwikkeling. We bouwen aan een toekomstbestendige IT-infrastructuur. Van een incidentgedreven organisatie bewegen we toe naar een procesgedreven organisatie, met een hoge kwaliteit dienstverlening. Naast het grote rekencentrum heeft het Openbaar Ministerie (OM) ook een kleiner rekencentrum, voor hooggerubriceerde data. Dit kleine rekencentrum wordt beheerd door een gedreven team medewerkers, dat losse omgevingen beheert voor meerdere specialistische teams van het OM.
+
+Als allround ICT-specialist met de focus op netwerkbeheer werk je in team Hoog Gerubriceerd (HG). Omdat we hoge eisen stellen aan de beveiliging en continuïteit, zorgt het team HG dat dit voor onze omgevingen altijd goed op orde is. Als breed inzetbare ICT-specialist met een focus op netwerk en security zet je jouw expertise in om dit jonge team verder vorm te geven. Daarnaast voer je ook systeembeheergerelateerde taken uit.
+
+Jouw Taken
+
+    Je bewaakt en installeert de centrale IT-infrastructuur en past deze aan in het hoogbeveiligde datacentrum. Hierbij is de beveiliging en integriteit van de infrastructuur van het hoogste belang.
+    Je initieert en werkt mee aan verbeter- en vernieuwingsprojecten.
+    Je draagt actief bij aan het continu verbeteren en beveiligen van de omgevingen.
+    Je onderzoekt gemelde incidenten en knelpunten, lost deze op én doet verbetervoorstellen.
+    Je ziet de nut en noodzaak in van IT-procedures en documentatie
+    Je zoekt samen met collega’s van systeem-, netwerk-, applicatie- en databasebeheer naar oplossingen voor vraagstukken. Hierin bewaak je de standaarden, beveiligingsprotocollen en andere afspraken
+    Je levert jouw expertise aan verschillende project- en werkgroepen.
+
+
+Functie-eisen
+
+    Je hebt hbo-niveau en bent CCNA of hoger gecertificeerd.
+    Je beschikt over MCSA- en/of Linux-certificeringen.
+    Je hebt ten minste drie jaar netwerkgerelateerde werkervaring.
+    Je hebt ervaring met LAN- en WAN-infrastructuren en de beveiliging hiervan.
+    Je hebt kennis van ITIL, de infrastructuurbeveiligingssystemen IDS, IPS, SIEM en 2FA, de virtualisatiesoftware VMware, het monitoringsprogramma PRTG en operating systems Red Hat, CentOS en Windows.
+    Je hebt kennis van firewalls en switches, en van de PKI-omgeving (CA’s).
+    Je hebt de Nederlandse nationaliteit, in verband met het veiligheidsonderzoek A.
+    Je spreekt en schrijft goed Nederlands.
+    Je denkt analytisch, begrijpt hoe de organisatie in elkaar zit, bedenkt creatieve ideeën en weet mensen hiervan te overtuigen.
+    Je werkt zowel zelfstandig als in teamverband goed.
+    Je hebt een dienstverlenende instelling, schakelt makkelijk en snel en bent goed in plannen en organiseren.
+    Je werkt integer, hebt een groot verantwoordelijkheidsgevoel en streeft altijd naar het beste resultaat.
+
+Senioriteitsniveau
+
+Niet van toepassing
+Bedrijfstak
+
+    Rijksoverheid 
+
+Soort baan
+
+Fulltime
+Functies
+
+    Projectmanagement Informatietechniek 
+
