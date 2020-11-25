@@ -1,0 +1,45 @@
+Functieomschrijving
+
+Voor wie je gaat werken
+
+    Wij zijn een producent van USB apparaten en software.
+    Ben jij werkzaam als Programmeur?
+    Heb jij ervaring met C++?
+
+Vaste Baan: C++ Programmeur | DMA | 3.500 - 5.000 | C++ Programmeur
+
+Onze organisatie is wereldwijd marktleider in T&M producten voor digitale TV systemen. Help ons voorop te blijven lopen in deze dynamische wereld! Wij zijn een veelzijdige organisatie. Je werkt voor onze eigen IT organisatie. We werken met moderne technologie en staan open voor innovatie.
+
+Wat wordt er van jou verwacht?
+
+Voor de vacature als C++ Programmeur Hilversum DMA ga je het volgende doen: Wij creëren PCI Express cards en USB apparaten voor het koppelen van digitale videosignalen aan PC's. Bedrijven als Samsung en Sony gebruiken onze gereedschappen om de nieuwste generatie televisies te ontwikkelen. Fabrikanten van uitzendapparatuur gebruiken onze kaarten voor het transporteren en verwerken van video voor spraakmakende evenementen zoals de Olympische spelen.
+
+In onze systeemfilosofie zijn interface-adapters 'dom' en is software 'slim'. De adapters kopiëren "slechts" gegevens in en uit het pc-geheugen (maar ze gebruiken een ultra-slimme DMA-controller ;-). De software doet alle verwerking, op de slimste manier mogelijk. De programmeertaal bij uitstek is daarom C ++, de machtigste programmeertaal op aarde.
+
+Ter versterking van ons team zijn we op zoek naar een gemotiveerde C++ Programmeur, die past in deze rol. 
+
+Reageer direct op deze advertentie en wij kunnen direct kijken of we een kennismakingsgesprek kunnen regelen. 
+
+WR.nl voor meer vacatures: C++ Programmeur c++, Ontwikkelaar, Software Engineer, Programmeur, Developer, Software Ontwikkelaar, Webdeveloper.
+
+Waar jouw profiel aan moet voldoen
+
+    Je hebt een relevante opleiding.
+    Je bent ervaren in het programmeren met C++.
+    Het is van belang dat je goed Nederlands spreekt.
+    Wij zijn op zoek naar een C++ Programmeur voor wie ontwerpen, programmeren en optimaliseren van wereldklasse oplossingen hun passie is.
+    Je woont in de omgeving van Hilversum, Amsterdam, Utrecht, Amersfoort en Almere.
+
+Als C++ Programmeur bij dit bedrijf in Hilversum kun je rekenen op:
+
+We zoeken iemand voor de lange termijn. We hebben een goede sfeer op kantoor. Wij investeren in onze medewerkers. Je wordt bij ons goed ingewerkt en wij bieden uitgebreide studiemogelijkheden. De salarismogelijkheden zijn gunstig en hangen af van jouw niveau. Zowel jouw mogelijkheden, ervaring en opleiding spelen een rol. 
+
+WR begeleidt jou naar een nieuwe werkgever. Dit kan wel eens een aantrekkelijke baan zijn voor jou. WR schat de brutosalarisrange globaal in op Euro 3.500 tot Euro 5.000 per maand, o.b.v. een 40-urige werkweek. Daarnaast zijn er goede secundaire regelingen. 
+
+WR streeft naar een goede match, waarbij je, als het even kan, ook een stap voorwaarts kunt maken in je salaris. Betreft vaste baan / WR doet Werving en Selectie / GEEN detachering.
+
+Wanneer ga jij aan de slag?
+
+Reistijd is belangrijk voor jou en ook voor ons. Vandaar dat we graag mensen uit Hilversum uitnodigen te solliciteren. Maar ook uit de buurt, denk aan Bloemendaal, Anna paulowna, Overveen, Schagen en Alkmaar. Als je uit Heemskerk, Heemstede, Diemen of Bergen komt woon je ook prima voor ons. Woon je in Hoofddorp, Hoogkarspel of Heiloo graag ook solliciteren. En woon je in Purmerend, Aerdenhout, Hoorn of Uitgeest dan past dat ook prima. Vanaf de woonplaatsen Haarlem, Bovenkarspel en Hardinxveld-giessendam is onze vestiging ook goed bereikbaar.
+
+Solliciteer nu direct met de button solliciteren. Je krijgt dan direct antwoord en je sollicitatie wordt direct opgepakt door de recruiter voor deze werkgever. WR voor een Vaste Baan werkt snel en goed. Stuur direct je CV mee, dat werkt het snelst.

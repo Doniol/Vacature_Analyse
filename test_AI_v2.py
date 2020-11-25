@@ -28,7 +28,6 @@ def main():
     x = x/float(len(words))
     print(x.shape)
 
-    # y = np_utils.to_categorical(y_data)
     y = numpy.empty([1, len(x_data[0]), 1], dtype=int)
     for word_index in range(0, len(x_data[0])):
         if x_data[0][word_index] in y_data[0]:
@@ -48,13 +47,12 @@ def main():
 
     model.compile(loss='categorical_crossentropy', optimizer='adam')
 
-    filepath = "own_AI_weights"
+    filepath = "own_AI_weights.hdf5"
     # Train
     checkpoint = ModelCheckpoint(filepath, monitor='loss', verbose=1, save_best_only=True, mode='min')
     desired_callbacks = [checkpoint]
 
-    model.fit(x, y, epochs=60, batch_size=None, callbacks=desired_callbacks)
-
+    model.fit(x, y, epochs=600, batch_size=None, callbacks=desired_callbacks)
 
 
 main()
