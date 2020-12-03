@@ -6,7 +6,7 @@ class test:
         self.results = []
     
     def run_algorithm(self):
-        self.results = algorithm(self.test_answers)
+        self.results = algorithm(self.test_data)
     
     def get_correct_result_count(self):
         correct_results = 0
