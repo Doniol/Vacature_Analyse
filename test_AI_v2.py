@@ -11,7 +11,7 @@ from keras.callbacks import ModelCheckpoint
 
 
 class AI():
-    def __init__():
+    def __init__(self):
         file = codecs.open("test_vacature.txt", "r", encoding="utf8").read()
         words = RegexpTokenizer(r'\w+').tokenize(file.lower())
         unique_words = list(set(words))
@@ -50,7 +50,7 @@ class AI():
         model.compile(loss='categorical_crossentropy', optimizer='adam')
         self.model = model
     
-    def train(epochs):
+    def train(self, epochs):
         filepath = "own_AI_weights.hdf5"
         # Train
         checkpoint = ModelCheckpoint(filepath, monitor='loss', verbose=1, save_best_only=True, mode='min')
@@ -58,7 +58,7 @@ class AI():
 
         self.model.fit(x, y, epochs=epochs, batch_size=None, callbacks=desired_callbacks)
     
-    def run():
+    def run(self):
         filename = "own_AI_weights.hdf5"
         # Run
         self.model.load_weights(filename)
