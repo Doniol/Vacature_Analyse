@@ -67,6 +67,20 @@ class pipeline_analyse_to_db(database_connection):
             self.enter_command("ALTER TABLE institutes AUTO_INCREMENT = 1")
             self.enter_command("ALTER TABLE words AUTO_INCREMENT = 1")
 
+    def clear_entries_institute(self, institute_name: str):
+        ''' Removes the entries of a desired institute
+
+        institute_name: The name of the institute you want to remove
+        '''
+        print('Deleting...')
+        self.enter_command("DELETE FROM entries WHERE institute_id = " + str(self.get_institute_id(institute_name)), tuple())
+
+    def get_institute_id(self, institute_name: str):
+        ''' Get the ID of an institute
+
+        institute_name: The name of the institute you want to get the ID of
+        '''
+        return self.fetch_command("SELECT institute_id FROM institutes WHERE institute = %s", (institute_name,))[0][0]
 
 class pipeline_db_to_interface(database_connection):
     ''' A class that creates a pipeline between the analysis database and the interface
