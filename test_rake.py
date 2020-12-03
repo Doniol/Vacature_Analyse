@@ -66,5 +66,3 @@ def main():
     db_out.add_dict(keywords, 'rake')
     
     
-
-main()

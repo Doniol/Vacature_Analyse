@@ -6,7 +6,8 @@ class test:
         self.results = []
     
     def run_algorithm(self):
-        self.results = algorithm(self.test_data)
+        self.results = self.algorithm(self.test_data)
+        print(self.results)
     
     def get_correct_result_count(self):
         correct_results = 0
@@ -24,6 +25,6 @@ class test:
         # Score is based on both the resulting words that are contained with the answers
         # But also takes into consideration test_answers that didn't appear in the results
         unnecessary_results = len(self.results) - self.get_correct_result_count()
-        missing_answers = len([[answer] if answer not in self.results for answer in self.test_answers])
+        missing_answers = len([[answer] for answer in self.test_answers if answer not in self.results])
 
         return 100 - (incorrect_weight * unnecessary_results + missing_weight * missing_answers)
