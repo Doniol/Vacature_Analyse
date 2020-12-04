@@ -10,10 +10,22 @@ def main():
             "itil", "ids", "ips", "siem", "2fa", "vmware", "prtg", "centos", "windows", "firewalls", 
             "pki", "nederlandse", "nationaliteit", "nederlands", "analytisch", "creatieve", "zelfstandig", "teamverband", 
             "organiseren", "verantwoordelijkheidsgevoel", "fulltime", "rijksoverheid", "projectmanagement", "informatietechniek"]
+    
     textrank = basic_test.test(test_textrank.get_textrank_results, [file], ans)
     textrank.run_algorithm()
-    print(test_textrank.get_textrank_results([file]))
     print(textrank.calc_success_rate())
+
+    textrank_plus = basic_test.test(test_textrank.get_summarised_textrank_results, [file], ans)
+    textrank_plus.run_algorithm()
+    print(textrank_plus.calc_success_rate())
+
+    textrank_rake = basic_test.test(test_rake_textrank_combo.get_combo_results, [file], ans)
+    textrank_rake.run_algorithm()
+    print(textrank_rake.calc_success_rate())
+
+    rake = basic_test.test(test_rake.get_rake_results, [file], ans)
+    rake.run_algorithm()
+    print(rake.calc_success_rate())
     
 
 main()
