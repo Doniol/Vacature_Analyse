@@ -26,7 +26,7 @@ def main():
 
     x = numpy.reshape(x_data, (len(x_data), len(x_data[0]), 1))
     x = x/float(len(words))
-    print(x.shape)
+    # print(x.shape)
 
     y = numpy.empty([1, len(x_data[0]), 1], dtype=int)
     for word_index in range(0, len(x_data[0])):
@@ -34,7 +34,7 @@ def main():
             y.itemset((0, word_index, 0), 1)
         else:
             y.itemset((0, word_index, 0), 0)
-    print(y, y.shape)
+    # print(y, y.shape)
 
     model = Sequential()
     model.add(LSTM(256, input_shape=(None, 1), return_sequences=True))
@@ -51,8 +51,19 @@ def main():
     # Train
     checkpoint = ModelCheckpoint(filepath, monitor='loss', verbose=1, save_best_only=True, mode='min')
     desired_callbacks = [checkpoint]
+    print(x.shape, y.shape)
+    print(type(x), type(y))
 
-    model.fit(x, y, epochs=600, batch_size=None, callbacks=desired_callbacks)
+    model.fit(x, y, epochs=1, batch_size=1, callbacks=desired_callbacks)
+
+    # # Run
+    # num_to_word_converter = dict((num, word) for num, word in enumerate(words))    
+    # model.load_weights(filepath)
+    # model.compile(loss='categorical_crossentropy', optimizer='adam')
+    # input_data = x
+    # prediction = model.predict(input_data, verbose=0)
+    # result = numpy.argmax(prediction)
+    # print(result, num_to_word_converter[result])
 
 
 main()

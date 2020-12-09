@@ -8,6 +8,7 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout, LSTM
 from keras.utils import np_utils
 from keras.callbacks import ModelCheckpoint
+import tensorflow as tf
 import spacy
 nlp = spacy.load('nl_core_news_md')
 
@@ -81,57 +82,65 @@ def main():
 
     ### Temporary solution for finding out what tags for actual keywords are
     y_data = []
-    print(len(x_data), len(x_data[0]), len(x_data[0][0]), x_data[0][0][0])
+    # print(len(x_data), len(x_data[0]), len(x_data[0][0]), x_data)
+    # print(processed_x_data, len(processed_x_data), len(processed_x_data[0]))
     # Loop through each set of results
     for result_set_index in range(0, len(results)):
-        # Create list representing all words in the current result
-        y_data.append([[0] for word in x_data[0][result_set_index]])
-        # Loop through each individual result within the current set
-        for result_index in range(0, len(results[result_set_index])):
-            #TODO: Mark multiple words instead of 1
-            # Mark the word(s) that corresponds to the currently selected result
-            word_index = x_data[0][result_set_index].index(results[result_set_index][result_index])
-            print(len(y_data), len(y_data[result_set_index]), result_set_index, word_index)
+        # Create list representing all words in the current result, 1 for relevant keywords, and 0 for irrelevant ones
+        y_data.append([[1] if word in results[result_set_index] else [0] for word in x_data[0][result_set_index]])
+    # print(len(y_data), len(y_data[0]), len(y_data[0][0]), y_data)
 
     # print(zipped_x_data, type(zipped_x_data))
     # print(len(zipped_x_data), len(zipped_x_data[0]), len(zipped_x_data[0][0]))
     # x = numpy.reshape(zipped_x_data, (len(zipped_x_data), len(zipped_x_data[0]), len(zipped_x_data[0][0])))
     # x = numpy.ndarray(shape=(len(zipped_x_data), len(zipped_x_data[0])))
-    x = numpy.array(x_data)
-    # print([len(x[i]) for i in range(len(x))])
-    # print(len(x), len(x[0]), len(x[0][0]))
+    # x = numpy.array(processed_x_data)
+    # x = numpy.asarray([numpy.array(data_point) for data_point in processed_x_data])
+    # x = numpy.asarray(processed_x_data).astype(numpy.float32)
+    # y = numpy.array(y_data)
+    # y = numpy.asarray([numpy.array(data_point) for data_point in y_data])
+    # y = numpy.asarray(y_data).astype(numpy.float32)
     # print(x.shape, type(x))
-    
-    print(x)
-    print(x.shape)
-
-    y = numpy.empty([len(x), len(x[0]), 1], dtype=int)
-    for word_index in range(0, len(x_data[0])):
-        print(x_data[0][word_index])
-        if x_data[0][word_index] in y_data[0]:
-            y.itemset((0, word_index, 0), 1)
-        else:
-            y.itemset((0, word_index, 0), 0)
-    print(y)
-    print(y.shape)
 
     model = Sequential()
-    model.add(LSTM(256, input_shape=(None, x.shape[2]), return_sequences=True))
+    model.add(LSTM(256, input_shape=(None, 4), return_sequences=True))
     model.add(Dropout(0.2))
     model.add(LSTM(256, return_sequences=True))
     model.add(Dropout(0.2))
-    model.add(LSTM(128))
+    model.add(LSTM(128, return_sequences=True))
     model.add(Dropout(0.2))
-    model.add(Dense(len(y[0]), activation='softmax'))
+    model.add(Dense(None, activation='softmax')) # Softmax hoort hier niet, None werkt niet; daar moet een variabele komen die veranderd afhankelijk van output size
 
     model.compile(loss='categorical_crossentropy', optimizer='adam')
 
-    filepath = "own_AI_weights"
+    filepath = "own_AI_v2_weights.hdf5"
     # Train
     checkpoint = ModelCheckpoint(filepath, monitor='loss', verbose=1, save_best_only=True, mode='min')
     desired_callbacks = [checkpoint]
 
-    model.fit(x, y, epochs=500, batch_size=None, callbacks=desired_callbacks)
+    # print("model: ")
+    # model.summary()
+    # print("x:")
+    # print([len(x[i]) for i in range(len(x))])
+    # print(len(x), len(x[0]), len(x[0][0]))
+    # print(x.shape)
+    # print("y:")
+    # print([len(y[i]) for i in range(len(y))])
+    # print(len(y), len(y[0]), len(y[0][0]))
+    # print(y.shape)
+
+    x = numpy.array([processed_x_data[0]])
+    # x = numpy.array([numpy.asarray(entry) for entry in processed_x_data])
+    y = numpy.array([y_data[0]])
+    # y = numpy.array([numpy.asarray(entry) for entry in y_data])
+    
+    # print(x)
+    # print(y)
+    print(x.shape, y.shape)
+    print(type(x), type(y))
+    print(type(x[0]), type(y[0]))
+
+    model.fit(x, y, epochs=1, batch_size=1, callbacks=desired_callbacks)
 
 
 main()
