@@ -1,15 +1,14 @@
 import numpy
 import sys
 import codecs
-import nltk
-from nltk.tokenize import RegexpTokenizer
-from nltk.corpus import stopwords
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, LSTM
 from keras.utils import np_utils
 from keras.callbacks import ModelCheckpoint
 import tensorflow as tf
 import spacy
+import seq2seq.seq2seq
+from seq2seq.seq2seq.models import SimpleSeq2Seq
 nlp = spacy.load('nl_core_news_md')
 
 
@@ -87,60 +86,69 @@ def main():
     # Loop through each set of results
     for result_set_index in range(0, len(results)):
         # Create list representing all words in the current result, 1 for relevant keywords, and 0 for irrelevant ones
-        y_data.append([[1] if word in results[result_set_index] else [0] for word in x_data[0][result_set_index]])
+        y_data.append([[1] if word in results[result_set_index] else [0] for word in x_data[0][result_set_index]] + [[0] for i in range(0, 1000 - len(x_data[0][result_set_index]))])
     # print(len(y_data), len(y_data[0]), len(y_data[0][0]), y_data)
 
-    # print(zipped_x_data, type(zipped_x_data))
-    # print(len(zipped_x_data), len(zipped_x_data[0]), len(zipped_x_data[0][0]))
-    # x = numpy.reshape(zipped_x_data, (len(zipped_x_data), len(zipped_x_data[0]), len(zipped_x_data[0][0])))
-    # x = numpy.ndarray(shape=(len(zipped_x_data), len(zipped_x_data[0])))
-    # x = numpy.array(processed_x_data)
-    # x = numpy.asarray([numpy.array(data_point) for data_point in processed_x_data])
-    # x = numpy.asarray(processed_x_data).astype(numpy.float32)
-    # y = numpy.array(y_data)
-    # y = numpy.asarray([numpy.array(data_point) for data_point in y_data])
-    # y = numpy.asarray(y_data).astype(numpy.float32)
-    # print(x.shape, type(x))
-
-    model = Sequential()
-    model.add(LSTM(256, input_shape=(None, 4), return_sequences=True))
-    model.add(Dropout(0.2))
-    model.add(LSTM(256, return_sequences=True))
-    model.add(Dropout(0.2))
-    model.add(LSTM(128, return_sequences=True))
-    model.add(Dropout(0.2))
-    model.add(Dense(None, activation='softmax')) # Softmax hoort hier niet, None werkt niet; daar moet een variabele komen die veranderd afhankelijk van output size
-
-    model.compile(loss='categorical_crossentropy', optimizer='adam')
-
-    filepath = "own_AI_v2_weights.hdf5"
-    # Train
-    checkpoint = ModelCheckpoint(filepath, monitor='loss', verbose=1, save_best_only=True, mode='min')
-    desired_callbacks = [checkpoint]
-
-    # print("model: ")
-    # model.summary()
-    # print("x:")
-    # print([len(x[i]) for i in range(len(x))])
-    # print(len(x), len(x[0]), len(x[0][0]))
-    # print(x.shape)
-    # print("y:")
-    # print([len(y[i]) for i in range(len(y))])
-    # print(len(y), len(y[0]), len(y[0][0]))
-    # print(y.shape)
-
-    x = numpy.array([processed_x_data[0]])
-    # x = numpy.array([numpy.asarray(entry) for entry in processed_x_data])
-    y = numpy.array([y_data[0]])
-    # y = numpy.array([numpy.asarray(entry) for entry in y_data])
+    #TODO: Option: Instead of padding with 0's create new model for every dataset; load weights; and change output size according to dataset
+    filepath = "own_AI_v3_weights.hdf5"
+    load_weights = True
+    x = numpy.array([data + [[0, 0, 0, 0] for i in range(0, 1000 - len(data))] for data in processed_x_data])
+    y = numpy.array(y_data)
     
-    # print(x)
-    # print(y)
-    print(x.shape, y.shape)
-    print(type(x), type(y))
-    print(type(x[0]), type(y[0]))
+    model = SimpleSeq2Seq(input_dim=4, hidden_dim=10, output_length=1000, output_dim=1, depth=4)
+    if load_weights:
+        model.load_weights(filepath)
+    model.compile(loss='mse', optimizer='rmsprop')
+    model.fit(x, y, epochs=10, batch_size=1)
+    model.save_weights(filepath)
 
-    model.fit(x, y, epochs=1, batch_size=1, callbacks=desired_callbacks)
+
+    # for dataset_index in range(0, len(y_data)):
+    #     x = numpy.array([processed_x_data[dataset_index]])
+    #     y = numpy.array([y_data[dataset_index]])
+
+    #     model = SimpleSeq2Seq(input_dim=4, hidden_dim=10, output_length=y.shape[1], output_dim=1, depth=4)
+    #     if dataset_index >= 1:
+    #         model.load_weights(filepath)
+    #     model.compile(loss='mse', optimizer='rmsprop')
+
+    #     # Train
+    #     model.fit(x, y, epochs=10, batch_size=None)
+    #     model.save_weights(filepath)
+
+
+    # filepath = "own_AI_v2_weights.hdf5"
+
+    # for dataset_index in range(0, len(y_data)):
+    #     x = numpy.array([processed_x_data[dataset_index]])
+    #     y = numpy.array([y_data[dataset_index]])
+    #     print(x.shape, y.shape)
+
+    #     model = Sequential()
+    #     model.add(LSTM(256, input_shape=(None, 4), return_sequences=True))
+    #     model.add(Dropout(0.2))
+    #     model.add(LSTM(256, return_sequences=True))
+    #     model.add(Dropout(0.2))
+    #     model.add(LSTM(128, return_sequences=True))
+    #     model.add(Dropout(0.2))
+    #     model.add(Dense(1, activation='softmax')) # Softmax hoort hier niet
+
+    #     if dataset_index >= 1:
+    #         model.load_weights(filepath)
+
+    #     model.compile(loss='categorical_crossentropy', optimizer='adam')
+
+    #     # Train
+    #     checkpoint = ModelCheckpoint(filepath, monitor='loss', verbose=1, save_best_only=True, mode='min')
+    #     desired_callbacks = [checkpoint]
+    #     model.fit(x, y, epochs=10, batch_size=None, callbacks=desired_callbacks)
+
+    
+    # # print(x)
+    # # print(y)
+    # print(x.shape, y.shape)
+    # print(type(x), type(y))
+    # print(type(x[0]), type(y[0]))
 
 
 main()
