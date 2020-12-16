@@ -14,23 +14,19 @@ def main():
     
     textrank = basic_test.test(test_textrank.get_textrank_results, [file], ans)
     textrank.run_algorithm()
-    print(textrank.calc_success_rate())
-    print(textrank.calc_score(0.5, 1))
+    textrank.get_test_results(0.5, 1, True)
 
     textrank_plus = basic_test.test(test_textrank.get_summarised_textrank_results, [file], ans)
     textrank_plus.run_algorithm()
-    print(textrank_plus.calc_success_rate())
-    print(textrank_plus.calc_score(0.5, 1))
+    textrank_plus.get_test_results(0.5, 1, True)
 
     textrank_rake = basic_test.test(test_rake_textrank_combo.get_combo_results, [file], ans)
     textrank_rake.run_algorithm()
-    print(textrank_rake.calc_success_rate())
-    print(textrank_rake.calc_score(0.5, 1))
+    textrank_rake.get_test_results(0.5, 1, True)
 
     rake = basic_test.test(test_rake.get_rake_results, [file], ans)
     rake.run_algorithm()
-    print(rake.calc_success_rate())
-    print(rake.calc_score(0.5, 1))
+    rake.get_test_results(0.5, 1, True)
     
 
 main()
