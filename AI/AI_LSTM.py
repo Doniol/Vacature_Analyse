@@ -81,7 +81,7 @@ class AI_LSTM_Padding(BasicAIPadding):
         model.add(Dropout(0.2))
         model.add(Dense(filler))
 
-        BasicAIPadding.__init__(self, datasets, filler, model)
+        BasicAIPadding.__init__(self, datasets, filler, [1, 0, 1], model)
 
 
 class AI_LSTM_NoPadding(BasicAINoPadding):
@@ -133,7 +133,7 @@ class AI_LSTM_Padding_bidirectional(BasicAIPadding):
         model.add(Dropout(0.2))
         model.add(Dense(filler))
 
-        BasicAIPadding.__init__(self, datasets, filler, model)
+        BasicAIPadding.__init__(self, datasets, filler, [1, 0, 1], model)
 
 
 def train_LSTM():

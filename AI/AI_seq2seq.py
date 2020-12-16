@@ -79,7 +79,7 @@ class AI_Seq2SeqPadding(BasicAIPadding):
                  depth: Union[int, List[int]]) -> None:
         # Create model
         model = SimpleSeq2Seq(input_dim=4, output_length=filler, output_dim=1, depth=depth)
-        BasicAIPadding.__init__(self, datasets, filler, model)
+        BasicAIPadding.__init__(self, datasets, filler, [[1], [0], [1]], model)
 
 
 class AI_Seq2SeqNoPadding(BasicAINoPadding):

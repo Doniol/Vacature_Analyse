@@ -80,6 +80,7 @@ class BasicAI():
         # Train the model and save the resulting weights
         self.model.compile(loss='mse', optimizer='rmsprop')
         if len(x) > 0 and len(y) > 0:
+            print(x.shape, y.shape)
             self.model.fit(x, y, epochs=epochs, batch_size=1)
         else:
             self.model.fit(self.x, self.y, epochs=epochs, batch_size=1)
@@ -122,7 +123,12 @@ class BasicAI():
 
 class BasicAIPadding(BasicAI):
     #TODO: What do when dataset is longer than filler?
-    def __init__(self, datasets: Tuple[List[List[List[str]]], List[List[str]], List[List[str]]], filler: int, model) -> None:
+    def __init__(self, datasets: Tuple[List[List[List[str]]], List[List[str]], List[List[str]]], filler: int, filled_with, model) -> None:
+        '''
+        
+        filled_with: A list containing with what to fill the resulting lists, 1st pos for correct answers, 2nd pos for incorrect ones and 3rd pos
+         for all the filler.
+        '''
         # Read in datasets
         x_data, results, uniques = datasets
         
@@ -143,7 +149,8 @@ class BasicAIPadding(BasicAI):
             # For each dataset, create list representing all words in the current result, 1 for relevant keywords, and 
             # 0 for irrelevant ones
             # Afterwards pad the output data so it's always the same size
-            y_data.append([1 if word in results[result_set_index] else 0 for word in x_data[0][result_set_index]] + [1 for i in range(0, filler - len(x_data[0][result_set_index]))])
+            y_data.append([filled_with[0] if word in results[result_set_index] else filled_with[1] for word in x_data[0][result_set_index]] + 
+                          [filled_with[2] for i in range(0, filler - len(x_data[0][result_set_index]))])
     
         # Pad each set of inputs so they're always the same size
         x = np.array([data + [[0, 0, 0, 0] for i in range(0, filler - len(data))] for data in processed_x_data])
@@ -172,7 +179,7 @@ class BasicAINoPadding(BasicAI):
         for result_set_index in range(0, len(results)):
             # For each dataset, create list representing all words in the current result, 1 for relevant keywords, and 
             # 0 for irrelevant ones
-            y_data.append([1 if word in results[result_set_index] else 0 for word in x_data[0][result_set_index]])
+            y_data.append([[1] if word in results[result_set_index] else [0] for word in x_data[0][result_set_index]])
     
         # Pad each set of inputs so they're always the same size
         x = np.array(processed_x_data)
