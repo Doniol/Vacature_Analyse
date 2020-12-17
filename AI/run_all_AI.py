@@ -4,13 +4,14 @@ from AI_LSTM import load_datasets
 import numpy as np
 from keras.backend import clear_session
 
-def func1():
-    datasets = load_datasets(["vac_1", "vac_2", "vac_3"])
-    AI_S_NP = AI_Seq2SeqNoPadding(datasets, 4)
-    print("AI_Seq2SeqNoPadding_1")
-    # AI_S_NP.train_AI(200, "AI\obj\AI_Seq2SeqNoPadding_1")
-    x = np.asarray(AI_S_NP.get_x_data()[0])
-    AI_S_NP.run_AI(x, "AI\obj\AI_Seq2SeqNoPadding_1", 10)
+
+def train_AI(AI, file):
+    AI.train_AI(1, file)
+
+
+def run_AI(AI, file):
+    x = np.asarray([AI.get_x_data()[0]])
+    AI.run_AI(x, file, 10)
 
 
 def main():
@@ -22,28 +23,31 @@ def main():
     AI_L_P_b = AI_LSTM_Padding_bidirectional(datasets, 1000)
 
     AI_S_P = AI_Seq2SeqPadding(datasets, 1000, 4)
+    AI_S_NP = AI_Seq2SeqNoPadding(datasets, 4)
 
     # Train AI
     # print("AI_LSTM_Padding_1")
-    # AI_L_P.train_AI(200, "AI\obj\AI_LSTM_Padding_1")
+    # AI_L_P.train_AI(1, "AI\obj\AI_LSTM_Padding_1", "AI\obj\AI_LSTM_Padding_1")
     # print("AI_LSTM_Padding_bidirectional_1")
-    # AI_L_P_b.train_AI(200, "AI\obj\AI_LSTM_Padding_bidirectional_1")
+    # train_AI(AI_L_P_b, "AI\obj\AI_LSTM_Padding_bidirectional_1", "AI\obj\AI_LSTM_Padding_bidirectional_1")
 
     #TODO: Cant run the following 2 in the same function?!?!?!??! (The Seq2Seq's that is)
     # print("AI_Seq2SeqPadding_1")
-    # AI_S_P.train_AI(200, "AI\obj\AI_Seq2SeqPadding_1")
-    # Then create new one
-    func1()
+    # train_AI(AI_S_P, "AI\obj\AI_Seq2SeqPadding_1", "AI\obj\AI_Seq2SeqPadding_1")
+    # print("AI_Seq2SeqNoPadding_1")
+    # train_AI(AI_S_NP, "AI\obj\AI_Seq2SeqNoPadding_1", "AI\obj\AI_Seq2SeqNoPadding_1")
 
     # Run AI
-    x = np.asarray(AI_L_P.get_x_data()[0])
-    print("AI\obj\AI_LSTM_Padding_1")
-    AI_L_P.run_AI(x, "AI\obj\AI_LSTM_Padding_1", 10)
-    print("AI\obj\AI_LSTM_Padding_bidirectional_1")
-    AI_L_P_b.run_AI(x, "AI\obj\AI_LSTM_Padding_bidirectional_1", 10)
+    print("AI_LSTM_Padding_1")
+    run_AI(AI_L_P, "AI\obj\AI_LSTM_Padding_1")
+    print("AI_LSTM_Padding_bidirectional_1")
+    run_AI(AI_L_P_b, "AI\obj\AI_LSTM_Padding_bidirectional_1")
     
-    print("AI\obj\AI_Seq2SeqPadding_1")
-    AI_S_P.run_AI(x, "AI\obj\AI_Seq2SeqPadding_1", 10)
+    # Create exactly the same AI anew in the function call, if i just reference to the existing AI it starts fucking up and giving weirdass errors
+    print("AI_Seq2SeqPadding_1")
+    run_AI(AI_Seq2SeqNoPadding(datasets, 4), "AI\obj\AI_Seq2SeqPadding_1")
+    print("AI_Seq2SeqNoPadding_1")
+    run_AI(AI_Seq2SeqPadding(datasets, 1000, 4), "AI\obj\AI_Seq2SeqNoPadding_1")
 
 
 main()

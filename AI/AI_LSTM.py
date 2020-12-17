@@ -125,7 +125,7 @@ class AI_LSTM_Padding_bidirectional(BasicAIPadding):
     def __init__(self, datasets: Tuple[List[List[List[str]]], List[List[str]], List[List[str]]], filler: int) -> None:
         # Create model
         model = Sequential()
-        model.add(Bidirectional(LSTM(256, input_shape=(None, 4), return_sequences=True)))
+        model.add(Bidirectional(LSTM(256, return_sequences=True), input_shape=(None, 4)))
         model.add(Dropout(0.2))
         model.add(Bidirectional(LSTM(256, return_sequences=True)))
         model.add(Dropout(0.2))
