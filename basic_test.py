@@ -1,9 +1,9 @@
 class test:
-    def __init__(self, algorithm, test_data, test_answers):
+    def __init__(self, algorithm, test_data, test_answers, results=[]):
         self.algorithm = algorithm
         self.test_data = test_data
         self.test_answers = test_answers
-        self.results = []
+        self.results = results
     
     def run_algorithm(self):
         self.results = self.algorithm(self.test_data)
