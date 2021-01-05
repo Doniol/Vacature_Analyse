@@ -123,6 +123,9 @@ class pipeline_db_to_analyse(database_connection):
         jsons = self.get_json_all()
         print("Done!\nCleaning descriptions...", end="")
 
+        if amount == -1 or amount > len(jsons):
+            amount = len(jsons)
+        
         for json in jsons[:amount]:
             descriptions.append(self.cleanup_json(json[0]))
         
