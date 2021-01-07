@@ -7,10 +7,21 @@ from basic_test import test
 
 
 def train_AI(AI, out_file, in_file=None):
-    AI.train_AI(200, out_file, weights_input=in_file)
+    ''' Function for training a selected AI
+
+    AI: The selected AI
+    out_file: File in which to save the trained weights
+    in_file: File from which to load existing weights
+    '''
+    AI.train_AI(1, out_file, weights_input=in_file)
 
 
 def run_AI(AI, file):
+    ''' Function for running a selected AI
+
+    AI: The selected AI
+    file: File from which the weights need to be loaded
+    '''
     x = np.asarray([AI.get_x_data()[0]])
     ans = ["besturing", "beveiliging", "optimalisatie", "hbo", "it-opleiding", "php", "laravel", "vue", "scrum", "git", "htmlvijf", "javascript", "bitbucket", "jira", "nodejs", "mysql", "bootstrap", "oplossingsgericht", "analytisch", "nederlands", "engelse", "duitse", "software", "engineer", "it", "developer", "softwaresysteem", "besturing", "beveiliging", "optimalisatie", "interne", "systemen", "gemotiveerde", "optimaliseren", "nederlandse", "embedded", "microcontroller", "c++"]
     AI_test = test(None, x, ans, AI.run_AI(x, file, 10))
@@ -18,6 +29,12 @@ def run_AI(AI, file):
 
 
 def main():
+    ''' Main function
+    In this case used to run and/or train different AI's.
+    Note that not all AI's can be ran/trained at the same time. Why this is, I can't for the life of me figure out, so just don't be surprised when you
+     try to run/train multiple AI's, and you get errors.
+    To run/train an AI, simply uncomment the desired part.
+    '''
     # Load datasets
     datasets = load_datasets(["vac_1", "vac_2", "vac_3"])
 
@@ -28,29 +45,28 @@ def main():
     AI_S_P = AI_Seq2SeqPadding(datasets, 1000, 4)
     AI_S_NP = AI_Seq2SeqNoPadding(datasets, 4)
 
-    # # Train AI
+    # Train AI
     # print("AI_LSTM_Padding_1")
-    # AI_L_P.train_AI(1, "AI\obj\AI_LSTM_Padding_1")
+    # train_AI(AI_L_P, "AI\obj\AI_LSTM_Padding_1")
     # print("AI_LSTM_Padding_bidirectional_1")
     # train_AI(AI_L_P_b, "AI\obj\AI_LSTM_Padding_bidirectional_1")
 
-    # #TODO: Cant run the following 2 in the same function?!?!?!??! (The Seq2Seq's that is)
     # print("AI_Seq2SeqPadding_1")
     # train_AI(AI_S_P, "AI\obj\AI_Seq2SeqPadding_1")
     # print("AI_Seq2SeqNoPadding_1")
     # train_AI(AI_S_NP, "AI\obj\AI_Seq2SeqNoPadding_1")
 
     # Run AI
-    print("AI_LSTM_Padding_1")
-    run_AI(AI_L_P, "AI\obj\AI_LSTM_Padding_1")
-    print("AI_LSTM_Padding_bidirectional_1")
-    run_AI(AI_L_P_b, "AI\obj\AI_LSTM_Padding_bidirectional_1")
+    # print("AI_LSTM_Padding_1")
+    # run_AI(AI_L_P, "AI\obj\AI_LSTM_Padding_1")
+    # print("AI_LSTM_Padding_bidirectional_1")
+    # run_AI(AI_L_P_b, "AI\obj\AI_LSTM_Padding_bidirectional_1")
 
     # Create exactly the same AI anew in the function call, if i just reference to the existing AI it starts fucking up and giving weirdass errors
-    print("AI_Seq2SeqPadding_1")
-    run_AI(AI_Seq2SeqNoPadding(datasets, 4), "AI\obj\AI_Seq2SeqPadding_1")
-    print("AI_Seq2SeqNoPadding_1")
-    run_AI(AI_Seq2SeqPadding(datasets, 1000, 4), "AI\obj\AI_Seq2SeqNoPadding_1")
+    # print("AI_Seq2SeqPadding_1")
+    # run_AI(AI_Seq2SeqNoPadding(datasets, 4), "AI\obj\AI_Seq2SeqPadding_1")
+    # print("AI_Seq2SeqNoPadding_1")
+    # run_AI(AI_Seq2SeqPadding(datasets, 1000, 4), "AI\obj\AI_Seq2SeqNoPadding_1")
 
 
 main()
