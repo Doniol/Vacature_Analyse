@@ -1,12 +1,13 @@
+from preprocessing import load_datasets
+from basic_AI import BasicAI
 from AI_LSTM import AI_LSTM_Padding, AI_LSTM_Padding_bidirectional
 from AI_seq2seq import AI_Seq2SeqNoPadding, AI_Seq2SeqPadding
-from AI_LSTM import load_datasets
 import numpy as np
 from keras.backend import clear_session
 from basic_test import test
 
 
-def train_AI(AI, out_file, in_file=None):
+def train_AI(AI: BasicAI, out_file: str, in_file: str=None):
     ''' Function for training a selected AI
 
     AI: The selected AI
@@ -16,7 +17,7 @@ def train_AI(AI, out_file, in_file=None):
     AI.train_AI(1, out_file, weights_input=in_file)
 
 
-def run_AI(AI, file):
+def run_AI(AI, file: str):
     ''' Function for running a selected AI
 
     AI: The selected AI
@@ -64,9 +65,9 @@ def main():
 
     # Create exactly the same AI anew in the function call, if i just reference to the existing AI it starts fucking up and giving weirdass errors
     # print("AI_Seq2SeqPadding_1")
-    # run_AI(AI_Seq2SeqNoPadding(datasets, 4), "AI\obj\AI_Seq2SeqPadding_1")
+    # run_AI(AI_S_P, "AI\obj\AI_Seq2SeqPadding_1")
     # print("AI_Seq2SeqNoPadding_1")
-    # run_AI(AI_Seq2SeqPadding(datasets, 1000, 4), "AI\obj\AI_Seq2SeqNoPadding_1")
+    # run_AI(AI_S_NP, "AI\obj\AI_Seq2SeqNoPadding_1")
 
 
 main()

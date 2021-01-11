@@ -7,7 +7,7 @@ nlp = spacy.load('nl_core_news_md')
 # Or faulty, stuff like non-words not entirely being filtered out.
 
 
-def get_word_data(file):
+def get_word_data(file: str):
     ''' Returns all kinds of data gained from the given file
     Returns 4 lists containing different kinds of information about the words in the file.
     The first list contains all of the individual words within the file.
@@ -36,7 +36,7 @@ def get_word_data(file):
     return words, POSs, tags, deps
 
 
-def add_uniques(existing_list, entry_list):
+def add_uniques(existing_list: List[str], entry_list: List[str]):
     #TODO: Useless? Probably, should check to make sure
     ''' Returns a list of unique entries
 
@@ -53,7 +53,7 @@ def add_uniques(existing_list, entry_list):
     return list(uniques)
 
 
-def load_datasets(dataset_names):
+def load_datasets(dataset_names: List[str]):
     ''' Returns all relevant data from a list of given datasets
     Returns 3 different lists filled with data used in the training/running of AI
     The first list is one filled with 4 lists corresponding to the 4 types of information gained from

@@ -2,8 +2,7 @@ from keras.backend import clear_session
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, LSTM, Bidirectional
 from typing import List, Any, Dict, Union, Tuple
-from basic_AI import BasicAI, BasicAIPadding, BasicAINoPadding
-from preprocessing import load_datasets
+from basic_AI import BasicAI, BasicAIPadding
 
 
 class AI_LSTM_Padding(BasicAIPadding):
@@ -13,8 +12,9 @@ class AI_LSTM_Padding(BasicAIPadding):
         #TODO: Could add the option to customise the amount of LSTM layers or whether or not to make use of dropout layers
         ''' Inits the AI
 
-        datasets: A tuple containing the dataset inputs, dataset desired outputs and all unique attributes in the dataset
-        filler: An integer denoting the total length of both the in- and output arrays
+        datasets: A tuple containing the dataset inputs, dataset desired outputs and all unique attributes in the dataset.
+            sidenote: For a more specific denotion of what this tuple looks like, it's exactly the same as the output from the load_datasets() function in preprocessing.py.
+        filler: An integer denoting the total length of both the in- and output arrays, said arrays will be padded up to the given size.
         '''
         # Create model
         model = Sequential()
@@ -39,8 +39,9 @@ class AI_LSTM_Padding_bidirectional(BasicAIPadding):
         #TODO: Could add the option to customise the amount of LSTM layers or whether or not to make use of dropout layers
         ''' Inits the AI
 
-        datasets: A tuple containing the dataset inputs, dataset desired outputs and all unique attributes in the dataset
-        filler: An integer denoting the total length of both the in- and output arrays
+        datasets: A tuple containing the dataset inputs, dataset desired outputs and all unique attributes in the dataset.
+            sidenote: For a more specific denotion of what this tuple looks like, it's exactly the same as the output from the load_datasets() function in preprocessing.py.
+        filler: An integer denoting the total length of both the in- and output arrays, said arrays will be padded up to the given size.
         '''
         # Create model
         model = Sequential()

@@ -4,7 +4,7 @@ import pickle
 import os.path
 from os import path
 
-# Notes from the start of research into AI (containing all kinds of different possibilities we wanted to try out):
+# Notes from the start of research into AI (containing all kinds of different possibilities we wanted to try out, but never got to):
     # Wat is the input?
         # 1. TF-IDF results, words connected to a value between 0 and 1 that shows its relevance within multiple different texts
         # 2. Sentences
@@ -28,20 +28,31 @@ class BasicAI():
     #TODO: The preprocessing extracts all unique entries from a job offer, might be better to not do that there, and instead let the get_dict() function do this job
     ''' Superclass for all AI's
     '''
-    def __init__(self, num_to_word_converter, x, y, model) -> None:
+    def __init__(self, num_to_word_converter: Dict[int, str], x: List[List[Any]], y: List[List[Any]], model: Any) -> None:
         ''' Init AI
 
         num_to_word_converter: A dictionary containing the information about what integer corresponds with what word
         x: Input data for training
+            sidenote: This is a list containing a list for each of the datasets, denoting their inputs
+                      Considering the current input for the AI's is a list of 4 numbers, this means that x has the following shape: 
+                      (amount of datasets, either filler or unpadded dataset input length, 4)
         y: Desired output data for given input data
+            sidenote: This is a list containing a list for each of the datasets, denoting their outputs
+                      Considering the current desired output data for the AI's, y should have the following shape:
+                      (amount of datasets, either filler or unpadded dataset input length)
+                      In the case of the seq2seq AI's, the dataset is slightly different:
+                      (amount of datasets, either filler or unpadded dataset input length, 1)
         model: The model that's being trained and ran
+            sidenote: The typehint is not defined because the model can be all kinds of types, the ones currently used are:
+                      - keras.engine.sequential.Sequential
+                      - keras.engine.training.Model
         '''
         self.num_to_word_converter = num_to_word_converter
         self.x = x
-        self.model = model
         self.y = y
+        self.model = model
 
-    def get_dict(self, file_name, new_entries, reverse=True):
+    def get_dict(self, file_name: str, new_entries: List[str], reverse: bool=True) -> Union[Dict[int, str], Dict[str, int]]:
         ''' Returns dictionary of all unique entries found, and their corresponding integers
         This function not only returns above mentioned dictionary, but also saves a list of all unique entries as a external file.
         Using this external file, other models can use the same dictionary as this one.
@@ -99,7 +110,7 @@ class BasicAI():
                                             [dep_converter[dep]/len(dep_converter) for dep in deps[dataset_index]])))
         return zipped_datasets
 
-    def train_AI(self, epochs: int, weights_output: str, weights_input: str=None, x=[], y=[]) -> None:
+    def train_AI(self, epochs: int, weights_output: str, weights_input: str=None, x:Union[None, List[List[Any]]]=[], y:Union[None, List[List[Any]]]=[]) -> None:
         ''' Function that trains the AI
 
         epochs: The amount of training cycles to be gone through
@@ -107,6 +118,10 @@ class BasicAI():
         weights_output: The name of the file where the calculated weights are to be stored
         x: A custom dataset with inputs, to be used instead of the currently stored one
         y: A custom dataset with outputs, to be used instead of the currently stored one
+            sidenote: The way that these (both x and y) list are currently used, is for AI without padding. Training these for all the different sized datasets
+                      in 1 go doesn't work and throws errors. Which is why these arguments exist, to provide the possibility to only pass a part of the datasets
+                      and thus process them 1 by 1 and not cause any errors.
+                      Both these lists are basically the same ones as the ones in self.x and self.y, but instead just contain 1 dataset within the list of datasets.
         '''
         # Check if a set of existing weights has been given
         if weights_input:
@@ -120,16 +135,15 @@ class BasicAI():
             self.model.fit(self.x, self.y, epochs=epochs, batch_size=1)
         self.model.save_weights(weights_output)
     
-    def run_AI(self, input_data, weights_file: str, desired_word_count: int):
+    def run_AI(self, input_data: List[List[Any]], weights_file: str, desired_word_count: int) -> Dict[str, int]:
         #TODO: Check if list of multiple lists of input data is possible
         ''' Function that runs the AI using the given data/parameters
 
         input_data: A list containing a list containing the input data for 1 run
-            sidenote: In this case each input datapoint consists of a list of floats so the input type is
-             np.ndarray(np.ndarray(np.ndarray(np.float64)))
+            sidenote: Has the same shape as the original self.x, but with the list being filled with just 1 dataset.
         weights_file: A string containing the name of the file in which the models' weights are stored
         desired_word_count: The amount of desired relevant keywords to be returned
-        return: A array filled with the found relevant keywords
+        return: A dictionary filled with the found words, and the amount of times they occured
         '''
         # Get results
         self.model.load_weights(weights_file)
@@ -139,9 +153,10 @@ class BasicAI():
         results = np.argpartition(prediction, -desired_word_count)[-desired_word_count:]
         # Turn selected results back into words
         answers = [self.num_to_word_converter[int(round(input_data[0][index][0] * len(self.num_to_word_converter)))] for index in results]
-        return answers
+        dict_answers = dict((word, answers.count(word)) for word in answers)
+        return dict_answers
     
-    def get_x_data(self):
+    def get_x_data(self) -> List[List[Any]]:
         ''' Returns the created input_data
         Temporary function for getting viable input data
 
@@ -154,17 +169,21 @@ class BasicAIPadding(BasicAI):
     #TODO: Try padding using either 0, -1 or other number to check which is best
     #TODO: Padding creates this bug where the best results are the ones gained from padding, ergo the 0's, 
     # which returns a list of the same useless word at word_to_num_converter[0]
-    #TODO: Find a solution for what to do when the dataset is longer than selected filler-size?
+    #TODO: Find a solution for what to do when the dataset is longer than selected filler-size
     ''' Superclass for all AI's that use padding
     '''
-    def __init__(self, datasets: Tuple[List[List[List[str]]], List[List[str]], List[List[str]]], filler: int, filled_with, model) -> None:
+    def __init__(self, datasets: Tuple[List[List[List[str]]], List[List[str]], List[List[str]]], filler: int, filled_with: List[Any], model) -> None:
         ''' Init AI
         
-        datasets: A tuple containing the dataset inputs, dataset desired outputs and all unique attributes in the dataset
-        filler: An integer denoting the total length of both the in- and output arrays
+        datasets: A tuple containing the dataset inputs, dataset desired outputs and all unique attributes in the dataset.
+            sidenote: For a more specific denotion of what this tuple looks like, it's exactly the same as the output from the load_datasets() function in preprocessing.py.
+        filler: An integer denoting the total length of both the in- and output arrays, said arrays will be padded up to the given size.
         filled_with: A list containing with what to fill the resulting lists, 1st pos for correct answers, 2nd pos for incorrect ones and 3rd pos
          for all the filler.
         model: The model that's being trained and ran
+            sidenote: The typehint is not defined because the model can be all kinds of types, the ones currently used are:
+                      - keras.engine.sequential.Sequential
+                      - keras.engine.training.Model
         '''
         # Read in datasets
         x_data, results, uniques = datasets
@@ -202,10 +221,14 @@ class BasicAINoPadding(BasicAI):
     def __init__(self, datasets: Tuple[List[List[List[str]]], List[List[str]], List[List[str]]], filled_with, model) -> None:
         ''' Init AI
         
-        datasets: A tuple containing the dataset inputs, dataset desired outputs and all unique attributes in the dataset
+        datasets: A tuple containing the dataset inputs, dataset desired outputs and all unique attributes in the dataset.
+            sidenote: For a more specific denotion of what this tuple looks like, it's exactly the same as the output from the load_datasets() function in preprocessing.py.
         filled_with: A list containing with what to fill the resulting lists, 1st pos for correct answers, 2nd pos for incorrect ones and 3rd pos
          for all the filler.
         model: The model that's being trained and ran
+            sidenote: The typehint is not defined because the model can be all kinds of types, the ones currently used are:
+                      - keras.engine.sequential.Sequential
+                      - keras.engine.training.Model
         '''
         # Read in datasets
         x_data, results, uniques = datasets
@@ -232,7 +255,7 @@ class BasicAINoPadding(BasicAI):
         # Create AI
         BasicAI.__init__(self, num_to_word_converter, x, y, model)
 
-    def update_model(self, output_length):
+    def update_model(self, output_length: int) -> None:
         ''' Empty function that is to be inherited and changed by subclasses
 
         output_length: The length of the output array for the new model
@@ -256,15 +279,14 @@ class BasicAINoPadding(BasicAI):
             # Save the weights for use in next iteration
             weights_input = weights_output
     
-    def run_AI(self, input_data, weights_file: str, desired_word_count: int):
+    def run_AI(self, input_data, weights_file: str, desired_word_count: int) -> Dict[str, int]:
         ''' Function that runs the AI using the given data/parameters
 
         input_data: A list containing a list containing the input data for 1 run
-            sidenote: In this case each input datapoint consists of a list of floats so the input type is
-             np.ndarray(np.ndarray(np.ndarray(np.float64)))
+            sidenote: Has the same shape as the original self.x, but with the list being filled with just 1 dataset.
         weights_file: A string containing the name of the file in which the models' weights are stored
         desired_word_count: The amount of desired relevant keywords to be returned
-        return: A array filled with the found relevant keywords
+        return: A dictionary filled with the found words, and the amount of times they occured
         '''
         # Change the model
         self.update_model(len(input_data[0]))

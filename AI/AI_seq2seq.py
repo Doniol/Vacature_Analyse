@@ -5,7 +5,6 @@ from seq2seq.seq2seq.models import SimpleSeq2Seq
 from keras.backend import clear_session
 from typing import List, Any, Dict, Union, Tuple
 from basic_AI import BasicAI, BasicAIPadding, BasicAINoPadding
-from preprocessing import load_datasets
 
 
 class AI_Seq2SeqPadding(BasicAIPadding):
@@ -15,10 +14,11 @@ class AI_Seq2SeqPadding(BasicAIPadding):
                  depth: Union[int, List[int]]) -> None:
         ''' Init AI
 
-        datasets: A tuple containing the dataset inputs, dataset desired outputs and all unique attributes in the dataset
-        filler: An integer denoting the total length of both the in- and output arrays
+        datasets: A tuple containing the dataset inputs, dataset desired outputs and all unique attributes in the dataset.
+            sidenote: For a more specific denotion of what this tuple looks like, it's exactly the same as the output from the load_datasets() function in preprocessing.py.
+        filler: An integer denoting the total length of both the in- and output arrays, said arrays will be padded up to the given size.
         depth: Defines amount of LSTMs in the de- and encoders; 3 means 3 in both, while (3, 1) means 3 in the encoder
-         and 1 in the decoder
+         and 1 in the decoder.
         '''
         # Create model
         model = SimpleSeq2Seq(input_dim=4, output_length=filler, output_dim=1, depth=depth)
@@ -35,9 +35,10 @@ class AI_Seq2SeqNoPadding(BasicAINoPadding):
     def __init__(self, datasets: Tuple[List[List[List[str]]], List[List[str]], List[List[str]]], depth: Union[int, List[int]]) -> None:
         ''' Init AI
 
-        datasets: A tuple containing the dataset inputs, dataset desired outputs and all unique attributes in the dataset
+        datasets: A tuple containing the dataset inputs, dataset desired outputs and all unique attributes in the dataset.
+            sidenote: For a more specific denotion of what this tuple looks like, it's exactly the same as the output from the load_datasets() function in preprocessing.py.
         depth: Defines amount of LSTMs in the de- and encoders; 3 means 3 in both, while (3, 1) means 3 in the encoder
-         and 1 in the decoder
+         and 1 in the decoder.
         '''
         self.depth = depth
         # Create temporary model
@@ -47,7 +48,7 @@ class AI_Seq2SeqNoPadding(BasicAINoPadding):
         # Create AI
         BasicAINoPadding.__init__(self, datasets, what_to_fill_with, model)
 
-    def update_model(self, output_length):
+    def update_model(self, output_length: int) -> None:
         ''' Create a new model to fit the selected outpu_length
 
         output_length: The length of the output array for the new model
