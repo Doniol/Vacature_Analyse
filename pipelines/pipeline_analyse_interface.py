@@ -1,4 +1,4 @@
-from pipeline_base import database_connection
+from pipelines.pipeline_base import database_connection
 from typing import Union, List, Dict, Tuple, Any
 import datetime
 

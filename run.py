@@ -1,10 +1,10 @@
-from pipeline_analyse_interface import pipeline_analyse_to_db, pipeline_db_to_interface
-from pipeline_verzamelaar_analyse import pipeline_db_to_analyse
+from pipelines.pipeline_analyse_interface import pipeline_analyse_to_db, pipeline_db_to_interface
+from pipelines.pipeline_verzamelaar_analyse import pipeline_db_to_analyse
 import interface
-from test_rake import get_rake_results
-from test_TF_IDF import TF_IDF_get_results
-from test_textrank import get_textrank_results
-from test_rake_textrank_combo import get_combo_results
+from algorithms.rake import get_rake_results
+from algorithms.TF_IDF import TF_IDF_get_results
+from algorithms.textrank import get_textrank_results
+from algorithms.rake_textrank_combo import get_combo_results
 from typing import Dict, Union, Callable
 
 
@@ -64,7 +64,8 @@ def run():
     else:
         keywords = algorithm(input_descriptions) 
 
-    if clear_data_base:
+    if clear_data_base == "True":
+        print(clear_data_base)
         db_analyzed_to.clear_entries_institute(desired_instute)
     
     print("Uploading...")

@@ -1,5 +1,5 @@
-from pipeline_verzamelaar_analyse import pipeline_db_to_analyse as pipeline_in
-from pipeline_analyse_interface import pipeline_analyse_to_db as pipeline_out
+from pipelines.pipeline_verzamelaar_analyse import pipeline_db_to_analyse as pipeline_in
+from pipelines.pipeline_analyse_interface import pipeline_analyse_to_db as pipeline_out
 import spacy
 from rake_spacy import Rake
 from spacy import displacy

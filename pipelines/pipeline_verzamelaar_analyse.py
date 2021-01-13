@@ -1,4 +1,4 @@
-from pipeline_base import database_connection
+from pipelines.pipeline_base import database_connection
 import json
 from html import entities
 from typing import List, Tuple

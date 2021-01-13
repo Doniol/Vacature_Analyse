@@ -90,4 +90,4 @@ def generate_summary(sentences, top_n=15):
 # let's begin
 # generate_summary( "similarity_vacature.txt")
 if __name__ == "__main__":
-    generate_summary(read_article("similarity_vacature.txt"))
+    generate_summary(read_article("dataset\\similarity_vacature.txt"))

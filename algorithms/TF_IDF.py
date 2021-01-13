@@ -1,7 +1,7 @@
 import spacy
 from spacy.lang.en.stop_words import STOP_WORDS as stop_words
 from spacy_langdetect import LanguageDetector
-from pipeline_verzamelaar_analyse import pipeline_db_to_analyse as pipeline_in
+from pipelines.pipeline_verzamelaar_analyse import pipeline_db_to_analyse as pipeline_in
 nlp = spacy.load('nl_core_news_sm')
 nlp.add_pipe(LanguageDetector(), name='language_detector', last=True)
 from typing import List, Dict

@@ -1,3 +1,6 @@
+from typing import Any, List, Dict, Union
+
+
 class test:
     ''' Class for testing algorithm effectiveness
     '''

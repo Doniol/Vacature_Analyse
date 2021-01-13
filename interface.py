@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 from typing import List, Tuple, Dict, Any
 
 # database connection
-from pipeline_analyse_interface import pipeline_db_to_interface as pipeline
+from pipelines.pipeline_analyse_interface import pipeline_db_to_interface as pipeline
 
 
 def split_dict(data_dict: Dict[int, Dict[str, int]]) -> Tuple[List[str], List[int]]:
