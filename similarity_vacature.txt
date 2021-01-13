@@ -1,0 +1,47 @@
+ Dev Ops-engineer ( Hansken) 
+  Ministerie van  Justitie en  Veiligheid,  Nederlands  Forensisch  Instituut
+   Functieomschrijving
+ Het  Nederlands  Forensisch  Instituut ( NFI) in  Den  Haag ontwikkelt software die van groot belang is in forensisch onderzoek.  Wat wij maken móet goed zijn, omdat de toekomst van mensen ervan afhangt.  Wordt iemand vrijgesproken of schuldig bevonden?  De eerste 48 uur in een opsporingsonderzoek zijn cruciaal.  Met het door  NFI ontwikkelde bigdata-platform  Hansken kunnen forensisch onderzoekers snel de juiste informatie vinden in enorme hoeveelheden data.  Aan jou als  Dev Ops-engineer de uitdaging om mee te werken aan de doorontwikkeling en verbetering van dit unieke en internationaal vooraanstaande platform.
+  Binnen de  Nederlandse strafrechtketen bestaat de noodzaak om op digitaal forensisch gebied de opsporingskracht en snelheid te vergroten met behoud van de forensische kwaliteit.  Dit om aan de alsmaar groeiende en veranderende 
+onderzoeksvraag te kunnen voldoen.  In 2014 heeft het  NFI het platform  Hansken ontworpen om in beslag genomen en gevorderde digitale dataverzamelingen inzichtelijk en toegankelijk te maken voor digitaal en tactisch onderzoekers.  De afgelopen jaren is het platform in gebruik en succesvol toegepast bij onder andere de politie en  FIOD.  Nationaal heeft  Hansken zich bewezen in meer dan vijfhonderd zaakonderzoeken.  Ook internationaal is er nu belangstelling voor het gebruik van het platform en de wetenschappelijke wereld wil het inzetten voor  R&amp; D.
+  Het  NFI blijft  Hansken doorontwikkelen en de forensische mogelijkheden ervan verder uitbreiden.  Hansken moet dan ook hét data-analyseplatform worden.  Een platform dat breed in zaakonderzoeken wordt toegepast door tactisch rechercheurs van de (inter)nationale rechtshandhaving voor het inzichtelijk en toegankelijk maken van digitale data.
+  Voor deze doorontwikkelingen werk jij als  Dev Ops-engineer samen met collega’s aan innovatie en verdere uitbreiding van het  Hansken-platform.  Jouw team is hecht en kenmerkt zich door zijn open en directe sfeer.  Jij en je collega’s helpen elkaar om samen tot oplossingen voor complexe casussen te komen.
+   Wat ga je doen?
+ Omdat jij alles weet van deployment pipelines ga je deze onderhouden en verbeteren, zodat onze ontwikkelaars zonder problemen applicaties kunnen releasen.  Droom je van automatiseren?  Mooi!  Want ook dat ga je in deze functie doen.  Hierdoor wordt het werk van jou en je mede-ontwikkelaars steeds makkelijker.
+  Daarnaast werk je aan het containerizen van  Hansken om zo de installatie bij nationale en internationale partners te vereenvoudigen én het kwaliteitsproces verder te verbeteren.
+  Verder lever je een belangrijke bijdrage aan de verbetering van het vakgebied software-engineering.  Je denkt mee over een efficiënte inrichting van het ontwikkelproces, waarbij de forensische kennis zo goed mogelijk geborgd wordt.
+  Jouw werk heeft dus impact op de samenleving.  Samen met jouw collega’s en onze ketenpartners maken we  Nederland een stukje veiliger!
+   Functie-eisen
+   Wie ben jij?
+
+  Je hebt een programmeerachtergrond die je in staat stelt om de  Dev Ops-mentaliteit te omhelzen.  Java-kennis is een grote pre!
+  Je bent bekend met continuous integration en continuous deployment.
+  Je automatiseert alles, maar dan ook echt álles, van bootstrap tot back-up.
+  Je hebt ervaring met monitoringtools, zoals  Prometheus,  Grafana en  Splunk.
+  Kubernetes kent geen geheimen voor jou en het bouwen van containerized applicaties evenmin.
+  Je hebt ervaring met cloud, bij voorkeur  AWS.
+  Je hebt ervaring met configuratiemanagementtools, zoals  Ansible.
+  Je bent goed met  Linux.
+  Je bent een teamplayer met een agile-mindset.
+  Je bent vaardig in het begeleiden van collega’s.
+
+   Wat vinden wij nog meer belangrijk?
+ Je bent een creatieve puzzelaar die zich graag vastbijt in complexe uitdagingen en doorgraaft tot je de oplossing gevonden hebt.  Van samenwerken krijg je energie en je neemt graag initiatief.  Daarnaast ben je kritisch en werk 
+je op een nauwkeurige, systematische manier, en toets je jouw resultaten bij collega’s.  Je hebt bovendien een pragmatische aanpak en denkt vanuit een oplossingsgerichte instelling actief mee over de vraag.  Jouw kennis en ervaringen deel je graag en je bent nieuwsgierig naar de ideeën van anderen.  Omdat je werkt in een agile-ontwikkelteam is het verder belangrijk dat je goede communicatieve skills hebt, zowel mondeling als schriftelijk.
+   Arbeidsvoorwaarden
+  Salarisniveau : schaal 10
+  Salarisomschrijving :  Op deze functie is het  Functiegebouw  Rijk van toepassing.  Inschaling vindt plaats op basis van je opleiding en ervaring.  De mogelijkheid bestaat dat je in beginsel via een aanvangsschaal wordt aangesteld.  Deze kan één schaal lager zijn dan de betreffende functieschaal.
+  Voor de functie geldt een tijdelijke markttoelage van 8% die aan het vermelde maandsalarissalaris wordt toegevoegd.
+   Maandsalaris :  Min €2.737 –  Max. €4.400 (bruto)
+  Dienstverband :  Arbeidsovereenkomst voor bepaalde tijd met uitzicht op onbepaalde tijd
+  Contractduur :  Tijdelijke aanstelling /  Arbeidsovereenkomst voor bepaalde tijd met uitzicht op onbepaalde tijd
+  Minimaal aantal uren per week : 32
+  Maximaal aantal uren per week : 36
+   Overige arbeidsvoorwaarden
+ Naast het salaris ontvang je een individueel keuzebudget ( IKB).  Het  IKB bestaat uit geld (16,37% van je brutojaarsalaris) en tijd.  Met het  IKB maak jij de keuzes die bij jou passen en kun je een deel van je arbeidsvoorwaarden zelf samenstellen.  Je kunt er bijvoorbeeld voor kiezen om een deel van je maandinkomen te laten uitbetalen wanneer jij dat wenst.  Ook kun je dit budget omzetten in verlof en andersom of besteden aan fiscaalvriendelijke doelen.  De  Rijksoverheid hecht sterk aan persoonlijke groei en loopbaanontwikkeling en biedt daarvoor tal van mogelijkheden.  Tot de secundaire arbeidsvoorwaarden behoren onder meer verschillende studiefaciliteiten, bedrijfsfitness, volledige vergoeding van je ov-reiskosten woon-werkverkeer en gedeeltelijk betaald ouderschapsverlof.
+   Bijzonderheden
+
+  Het toetsen van de integriteit van onze nieuwe collega’s is voor het  NFI van groot belang.  Daarom word je vooraf gescreend door de  AIVD (veiligheidsonderzoek  B).  Ook een geheimhoudingsverklaring maakt deel uit van het sollicitatieproces.
+  Wanneer je als rijksambtenaar een beroep doet op een voorrangspositie, stuur dan een kopie van je beschikking mee.
+  Acquisitie naar aanleiding van deze vacature wordt niet op prijs gesteld.
+  Aan deze vacaturetekst kunnen geen rechten worden ontleend.
