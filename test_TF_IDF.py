@@ -41,4 +41,8 @@ def TF_IDF_get_results(dataset):
     df = pd.DataFrame(tfIdf[0].T.todense(), index=tfIdfVectorizer.get_feature_names(), columns=["TF-IDF"])
     df = df.sort_values('TF-IDF', ascending=False)
     df = df.head(25)
+    '''
+    Count all occurences
+    Put in dict
+    '''
     return df.to_dict("dict")["TF-IDF"]
