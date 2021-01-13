@@ -32,7 +32,7 @@ class pipeline_db_to_analyse(database_connection):
 
         return: A list of JSON-strings
         '''
-        return self.fetch_command(command="SELECT json FROM raw_json", vars=tuple())
+        return self.fetch_command(command="SELECT json FROM raw_json")
 
     def camel_case_to_phrase(self, s: str) -> str:
         ''' This function splits camelCase words into seperate words

@@ -11,7 +11,14 @@ nlp = spacy.load('nl_core_news_md')
 nlp.add_pipe(LanguageDetector(), name='language_detector', last=True)
 from typing import List, Tuple, Dict
 
-def get_textrank_results(descriptions = List[str]):
+
+def get_textrank_results(descriptions = List[str])-> Dict[str, int]:
+    ''' This function uses the textrank algorithm to get keywords
+
+    descriptions: A list containing the job offer desccriptions
+    return: A dictionary with as key the word and as value the amount of times the word
+        has been found as a keyword in different offers
+    '''
     word_dict = {}
     for description in descriptions:
         already_added = []
@@ -41,7 +48,15 @@ def get_textrank_results(descriptions = List[str]):
                 add_single_keyword(key, already_added, word_dict)
     return word_dict
 
-def add_single_keyword(key: str, already_added: List[str], word_dict: Dict[str, int]):
+
+def add_single_keyword(key: str, already_added: List[str], word_dict: Dict[str, int]) -> None:
+    ''' This function is to check if a single keyword has already been added/counted for this job_offer
+    When a keyword has already been added it will be ignored, if not, the keyword will be added to list
+
+    key: A string of the keyword
+    already_added: A list with the keywords which have already been added for this job offer
+    word_dict: The dictionary with the keywords and amount they've been counted in job offers 
+    '''
     key_nlp = nlp(key)
     #check if key is already used for this job offer
     if str(key_nlp[0].lemma_) not in already_added and str(key_nlp[0]) not in already_added: 
@@ -57,7 +72,13 @@ def add_single_keyword(key: str, already_added: List[str], word_dict: Dict[str, 
                     already_added.append(str(key_nlp[0].lemma_))
 
 
-def get_summarised_textrank_results(descriptions: List[str]):
+def get_summarised_textrank_results(descriptions: List[str]) -> Dict[str, int]:
+    ''' This function uses the textrank algorithm to get keywords after summarizing the text with textrank summary
+
+    descriptions: A list containing the job offer desccriptions
+    return: A dictionary with as key the word and as value the amount of times the word
+        has been found as a keyword in different offers
+    '''
     word_dict = {}
     for description in descriptions:
         already_added = []
@@ -87,8 +108,6 @@ def get_summarised_textrank_results(descriptions: List[str]):
                 #check if key consists of multiple words
                 add_single_keyword(key, already_added, word_dict)
     return word_dict
-
-
 
 
 def main():

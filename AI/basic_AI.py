@@ -35,13 +35,13 @@ class BasicAI():
         x: Input data for training
             sidenote: This is a list containing a list for each of the datasets, denoting their inputs
                       Considering the current input for the AI's is a list of 4 numbers, this means that x has the following shape: 
-                      (amount of datasets, either filler or unpadded dataset input length, 4)
+                      (amount of datasets, either filler or unpadded dataset equal to the input length, 4)
         y: Desired output data for given input data
             sidenote: This is a list containing a list for each of the datasets, denoting their outputs
                       Considering the current desired output data for the AI's, y should have the following shape:
-                      (amount of datasets, either filler or unpadded dataset input length)
+                      (amount of datasets, either filler or unpadded dataset equal to the input length)
                       In the case of the seq2seq AI's, the dataset is slightly different:
-                      (amount of datasets, either filler or unpadded dataset input length, 1)
+                      (amount of datasets, either filler or unpadded dataset equal to the input length, 1)
         model: The model that's being trained and ran
             sidenote: The typehint is not defined because the model can be all kinds of types, the ones currently used are:
                       - keras.engine.sequential.Sequential
@@ -53,13 +53,14 @@ class BasicAI():
         self.model = model
 
     def get_dict(self, file_name: str, new_entries: List[str], reverse: bool=True) -> Union[Dict[int, str], Dict[str, int]]:
-        ''' Returns dictionary of all unique entries found, and their corresponding integers
+        ''' Returns a dictionary of all unique entries found, and their corresponding integers
         This function not only returns above mentioned dictionary, but also saves a list of all unique entries as a external file.
         Using this external file, other models can use the same dictionary as this one.
 
         file_name: The name of the file in which to store all unique entries
         new_entries: A list containing new entries, these need to be unique from each other, but not necessarily from the already saved entries
         reverse: Define whether a dictionary needs to have the entry as a keyword, or to use the corresponding integer as a keyword
+        return: A dictionary filled with unique entries and their corresponding integer, either a Dict[str, int] or a Dict[int, str]
         '''
         # Check whether file already exists
         if path.exists("AI/obj/" + file_name + ".pkl"):

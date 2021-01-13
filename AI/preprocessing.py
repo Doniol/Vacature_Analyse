@@ -7,7 +7,7 @@ nlp = spacy.load('nl_core_news_md')
 # Or faulty, stuff like non-words not entirely being filtered out.
 
 
-def get_word_data(file: str):
+def get_word_data(file: str) -> Tuple[List[str], List[str], List[str], List[str]]:
     ''' Returns all kinds of data gained from the given file
     Returns 4 lists containing different kinds of information about the words in the file.
     The first list contains all of the individual words within the file.
@@ -16,6 +16,7 @@ def get_word_data(file: str):
     The fourth list contains the Suntactic Dependency for each of the abovementioned words.
 
     file: A already opened file that contains the to be analysed text
+    return: The above described lists
     '''
     # Tokenize a lowercased version of the file
     tokens = nlp(file.lower())
@@ -53,7 +54,7 @@ def add_uniques(existing_list: List[str], entry_list: List[str]):
     return list(uniques)
 
 
-def load_datasets(dataset_names: List[str]):
+def load_datasets(dataset_names: List[str]) -> List[List[List[List[str]], List[List[str]], List[List[str]], List[List[str]]], List[List[str]], List[List[str], List[str], List[str], List[str]]]:
     ''' Returns all relevant data from a list of given datasets
     Returns 3 different lists filled with data used in the training/running of AI
     The first list is one filled with 4 lists corresponding to the 4 types of information gained from

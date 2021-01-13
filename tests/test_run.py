@@ -2,6 +2,7 @@ import basic_test
 import test_textrank, test_rake_textrank_combo, test_rake
 import test_TF_IDF
 
+
 def main():
     # Get algorithm input and desired output
     file = open("test_vacature.txt", "r", encoding="utf8").read()

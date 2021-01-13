@@ -73,7 +73,7 @@ class pipeline_analyse_to_db(database_connection):
         institute_name: The name of the institute you want to remove
         '''
         print('Deleting...')
-        self.enter_command("DELETE FROM entries WHERE institute_id = " + str(self.get_institute_id(institute_name)), tuple())
+        self.enter_command("DELETE FROM entries WHERE institute_id = " + str(self.get_institute_id(institute_name)))
 
     def get_institute_id(self, institute_name: str):
         ''' Get the ID of an institute
@@ -120,7 +120,7 @@ class pipeline_db_to_interface(database_connection):
             query += self.add_to_query(query, "word_id", self.get_entity_id("word", word))
         if institute:
             query += self.add_to_query(query, "institute_id", self.get_entity_id("institute", institute))
-        return self.fetch_command("SELECT * FROM entries" + query, tuple()) ## List[Tuple[entry_id, word_id, word_count, date_id, institute_id]]
+        return self.fetch_command("SELECT * FROM entries" + query) ## List[Tuple[entry_id, word_id, word_count, date_id, institute_id]]
     
     def add_to_query(self, query: str, attribute_name: str, attribute_id: int) -> str:
         ''' Returns the given query combined with a new command
@@ -159,7 +159,7 @@ class pipeline_db_to_interface(database_connection):
         table_name: The name of the selected lookup_table
         return: A list of tuples containing all entries from the selected table
         '''
-        return self.fetch_command("SELECT * FROM {}".format(table_name), tuple())
+        return self.fetch_command("SELECT * FROM {}".format(table_name))
 
     def get_dict(self, data_entries: List[Tuple[int, int, int, int, int]]) -> Dict[int, Dict[str, Any]]:
         ''' A function that turns the given data_entries into a dict

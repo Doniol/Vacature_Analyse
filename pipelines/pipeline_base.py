@@ -29,20 +29,20 @@ class database_connection:
                           database=self.database_name, user=self.user, password=self.password)
         self.cursor = self.connection.cursor()
     
-    def enter_command(self, command: str, vars: Tuple[Any]) -> None:
+    def enter_command(self, command: str, vars: Tuple[Any]=tuple()) -> None:
         ''' This function is used to command the database directly
         
         command: The command you want to run
-        vars: The parameters of the query
+        vars: The parameters of the query. Only if you don't have any query parameters, you can leave the vars blank.
         '''
         self.cursor.execute(command, vars)
         self.connection.commit()
     
-    def fetch_command(self, command: str, vars: Tuple[Any]) -> List[Tuple[Any]]:
+    def fetch_command(self, command: str, vars: Tuple[Any]=tuple()) -> List[Tuple[Any]]:
         ''' This function fetches data from the data_base
 
         command: The sql command you want to use for data extraction
-        vars: The parameters of the query
+        vars: The parameters of the query. Only if you don't have any query parameters, you can leave the vars blank.
         return: A list of tuples which contain the desired data
         '''
         self.cursor.execute(command, vars)
@@ -53,4 +53,4 @@ class database_connection:
 
         table_name: The name of the table you want to clear
         '''
-        self.enter_command("DELETE FROM {}".format(table_name), (tuple()))
+        self.enter_command("DELETE FROM {}".format(table_name))

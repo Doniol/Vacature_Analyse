@@ -20,11 +20,11 @@ class test:
         ''' Run the algorithm, and store the result in self.results
         '''
         self.results = self.algorithm(self.test_data)
-    
+
     def print_results(self):
         ''' Print self.results
         '''
-        print(self.results, type(self.results))
+        print(self.results)
 
     def get_correct_result_count(self) -> int:
         ''' Return how many of the results aren't actual relevant keywords
@@ -61,7 +61,9 @@ class test:
     def calc_score(self, weight_false_positive, weight_false_negative) -> float:
         ''' Return a score based on the false positive- and negatives
 
-        return: A integer representing a score based on the false positive- and negatives
+        weight_false_positive: How many -points each false positive should give
+        weight_false_negative: How many -points each false negative should give
+        return: A float representing a score based on the false positive- and negatives
         '''
         false_positive_score = self.get_false_positive() * weight_false_positive
         false_negative_score = self.get_false_negative() * weight_false_negative

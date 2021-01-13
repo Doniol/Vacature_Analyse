@@ -30,7 +30,7 @@ class AI_Seq2SeqPadding(BasicAIPadding):
 
 
 class AI_Seq2SeqNoPadding(BasicAINoPadding):
-    ''' AI using Seq2Seq witout padding the in- and output arrays.
+    ''' AI using Seq2Seq without padding the in- and output arrays.
     '''
     def __init__(self, datasets: Tuple[List[List[List[str]]], List[List[str]], List[List[str]]], depth: Union[int, List[int]]) -> None:
         ''' Init AI

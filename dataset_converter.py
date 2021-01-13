@@ -7,30 +7,30 @@ nlp.add_pipe(LanguageDetector(), name='language_detector', last=True)
 
 from typing import List, Tuple, Dict
 
-def apply_lemmanization(keywords: str)-> List[str]:
-    ''' This funtion makes from the keyword string a list and applies lemmatization to these keywords
+def apply_lemmatization(keywords: str) -> List[str]:
+    ''' This funtion turns the keywords string into a list and applies lemmatization to these keywords
 
     keywords: The string with the keyword list
-    return: a list of the keywords
+    return: A list of the keywords
     '''
-    keywords_lemmanized = []
+    keywords_lemmatized = []
     # loop though every keyword
     keyword_list = keywords.split(",")
     for word in keyword_list:
         to_lemma = nlp(word)
-        lemmanized = ""
+        lemmatized = ""
         # lemmanize the keyword
         for token in to_lemma:
-            lemmanized += str(token.lemma_) + " "
-        keywords_lemmanized.append(lemmanized.strip())
-    return keywords_lemmanized
+            lemmatized += str(token.lemma_) + " "
+        keywords_lemmanized.append(lemmatized.strip())
+    return keywords_lemmatized
 
-def format_test_data_with_keywords(offer: str) -> List[List[str]]:
-    ''' This function makes from the textfile usable data to store in a database and be used for the tests
-    The textfile has both a relevant and all keywords list
+def format_test_data_with_keywords(offer: str) -> List[str, List[str], List[str], List[str], List[str], List[str], List[str], List[str], List[str]]:
+    ''' This function turns a textfile into usable data to be stored in a database and used for the tests
+    The textfile has both a relevant and all keywords lists
 
-    text: a string of the dataset txt file
-    return: a list with for every job offer in the dataset a list with the job offer, the relevant keywords, 
+    text: A string of the dataset txt file
+    return: A list with for every job offer in the dataset: a list with the job offer, the relevant keywords, 
         the relevant keywords with lemmatization, every keyword, every keyword with lemmatization
     '''
     # split the offers between their categories, single relevevant keywords, relevant keywords, single keywords, keywords and the job offer
@@ -60,7 +60,7 @@ def format_test_data_with_keywords(offer: str) -> List[List[str]]:
     return [job_offer, relevant_keywords, lemma_relevant_keywords, single_relevant_keywords, lemma_single_relevant_keywords, keywords, lemma_Keywords, single_keywords, lemma_single_keyword]
 
 
-def format_test_data_without_keywords(offer: str) -> List[List[str]]:
+def format_test_data_without_keywords(offer: str) -> List[str, List[str], List[str], List[str], List[str], List[str], List[str], List[str], List[str]]:
     ''' This function makes from the textfile usable data to store in a database and be used for the tests
     The textfile has only a relevant keywords list
 
@@ -86,9 +86,14 @@ def format_test_data_without_keywords(offer: str) -> List[List[str]]:
     
     #add the whole job offer data set together and add it to the list
     return [job_offer, relevant_keywords, lemma_relevant_keywords, single_relevant_keywords, lemma_single_relevant_keywords, [], [], [], []] 
-        
 
-def create_dataset(filename: str):
+
+def create_dataset(filename: str) -> List[str, List[str], List[str], List[str], List[str], List[str], List[str], List[str], List[str]]:
+    ''' This function creates the dataset by calling the requiered function
+
+    filename: The name of the file you want to get data from
+    return: The formatted version which can be uploaded to the database  
+    '''
     f = open(filename, encoding="utf-8")
     f_text = f.read()
     job_offer_data_sets = f_text.split("VACATURE:")
@@ -105,11 +110,11 @@ def create_dataset(filename: str):
             test_data = format_test_data_with_keywords(data_set)
             print(test_data)
             formatted_test_data.append(test_data)
-    return
+    return formatted_test_data
 
 
 def main():
     create_dataset("ict vacatures in text form.txt")
-       
+
 
 main()

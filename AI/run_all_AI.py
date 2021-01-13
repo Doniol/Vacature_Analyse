@@ -23,7 +23,9 @@ def run_AI(AI, file: str):
     AI: The selected AI
     file: File from which the weights need to be loaded
     '''
+    #TODO: Make the answers dynamically retrievable via a file or the dataset pipeline
     x = np.asarray([AI.get_x_data()[0]])
+    # Answers for vac_1
     ans = ["besturing", "beveiliging", "optimalisatie", "hbo", "it-opleiding", "php", "laravel", "vue", "scrum", "git", "htmlvijf", "javascript", "bitbucket", "jira", "nodejs", "mysql", "bootstrap", "oplossingsgericht", "analytisch", "nederlands", "engelse", "duitse", "software", "engineer", "it", "developer", "softwaresysteem", "besturing", "beveiliging", "optimalisatie", "interne", "systemen", "gemotiveerde", "optimaliseren", "nederlandse", "embedded", "microcontroller", "c++"]
     AI_test = test(None, x, ans, AI.run_AI(x, file, 10))
     AI_test.get_test_results(0.5, 1, True)
@@ -32,7 +34,7 @@ def run_AI(AI, file: str):
 def main():
     ''' Main function
     In this case used to run and/or train different AI's.
-    Note that not all AI's can be ran/trained at the same time. Why this is, I can't for the life of me figure out, so just don't be surprised when you
+    Note that not all AI's can be ran/trained at the same time. Why this is, I can't figure out, so just don't be surprised when you
      try to run/train multiple AI's, and you get errors.
     To run/train an AI, simply uncomment the desired part.
     '''
