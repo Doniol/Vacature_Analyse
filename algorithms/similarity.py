@@ -1,15 +1,16 @@
-#!/usr/bin/env python
-# coding: utf-8
-
+import spacy
 from spacy.lang.nl.stop_words import STOP_WORDS
 from nltk.cluster.util import cosine_distance
 import numpy as np
 import networkx as nx
+from typing import List, Dict
+nlp = spacy.load('nl_core_news_sm')
+
 
 def read_article(file_name):
     file = open(file_name, "r", encoding='utf-8')
     article = file.readlines()
-    
+
     #article = filedata.split(". ")
     sentences = []
 
@@ -60,34 +61,48 @@ def build_similarity_matrix(sentences, stop_words):
     return similarity_matrix
 
 
+def word_count(descriptions: List[str])-> Dict[str,int]:
+    ''' This function uses the TF-IDF algorithem to find the most important words.
+
+        dataset: A list containing sentences.
+        return: A dict containing the most important words and how much the dataset contains these words.
+    '''
+    new_list = nlp("".join(descriptions))
+    word_counter = {}
+
+    for token in new_list:
+        if token.is_stop or token.is_punct or token.is_bracket or token.is_currency:
+            continue
+        elif token.pos_ == "NOUN" or token.pos_ == "PROPN" or token.pos_ == "ADJ":
+            if token.text not in word_counter:
+                word_counter[token.text] = 1
+            else:
+                word_counter[token.text] += 1
+    return word_counter
+
 
 def generate_summary(sentences, top_n=15):
     summarize_text = []
 
-    # Step 1 - Read text and split it
-    # sentences =  read_article(file_name)
-
-    # Step 2 - Generate Similary Martix across sentences
+ 
+    # Generate Similary Martix across sentences
     sentence_similarity_martix = build_similarity_matrix(sentences, STOP_WORDS)
 
-    # Step 3 - Rank sentences in similarity martix
+    # Rank sentences in similarity martix
     sentence_similarity_graph = nx.from_numpy_array(sentence_similarity_martix)
     scores = nx.pagerank(sentence_similarity_graph)
 
-    # Step 4 - Sort the rank and pick top sentences
+    # Sort the rank and pick top sentences
     ranked_sentence = sorted(((scores[i],s) for i,s in enumerate(sentences)), reverse=True)    
-    print("Indexes of top ranked_sentence order are ", ranked_sentence)    
 
     for i in range(top_n):
       summarize_text.append(" ".join(ranked_sentence[i][1]))
 
-    # Step 5 - Offcourse, output the summarize text
-    print("Summarize Text: \n", ". ".join(summarize_text))
+    # Count words
+    return word_count(summarize_text)
 
-    # Step 6 - Count words
-        # return: Dict[str, int]
-
-# let's begin
-# generate_summary( "similarity_vacature.txt")
 if __name__ == "__main__":
-    generate_summary(read_article("similarity_vacature.txt"))
+    import os
+    dirname = os.path.dirname(__file__)
+    filename = os.path.join(dirname, "../dataset/similarity_vacature.txt")
+    print(generate_summary(read_article(filename), top_n=30))
