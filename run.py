@@ -78,29 +78,37 @@ def run():
     print("Give the desired tables for the interface: all, table, pie or cloud")
     show_table = input()
     
+    # retrieve data from the database
     data = db_analyzed_from.get_dict(db_analyzed_from.get_entries(institute=desired_instute))
     data_word_ids, data_amounts = interface.split_dict(data)
+
     data_words = interface.link_ids_to_entities(db_analyzed_from, "words", data_word_ids)
     if not data_words:
         data_words.append("No data")
         data_amounts.append("No data")
+
+    word_cloud_dict = {}
+    for index in range(len(data_words)):
+        word_cloud_dict[data_words[index]] = data_amounts[index] 
     
-    # Show pie chart, table and word cloud
+    # show pie chart and table
     if show_table == "all":
         interface.create_show_table(desired_instute, data_words, data_amounts)
         interface.create_show_pie(desired_instute, data_words, data_amounts)
-        interface.create_show_cloud(data_words, data_amounts)
-    # Show table
+        interface.create_show_cloud(word_cloud_dict, 20)
+    # show table
     elif show_table == "table":
         interface.create_show_table(desired_instute, data_words, data_amounts)
-    # Show pie chart
+    # show pie chart
     elif show_table == "pie":
         interface.create_show_pie(desired_instute, data_words, data_amounts)
-    # Show word cloud
+    # show word cloud
     elif show_table == "cloud":
-        interface.create_show_cloud(data_words, data_amounts)
+        interface.create_show_cloud(word_cloud_dict, 20)
+        
     else:
         print("Invalid table choice, please choose from: all, table, pie or cloud")
+
     return
 
 
