@@ -23,6 +23,14 @@ def read_article(file_name):
     return sentences
 
 def sentence_similarity(sent1, sent2, stopwords=None):
+    ''' This function depends on Cosine similarity
+     is a measure of similarity between two non-zero vectors of an inner product space that measures the cosine 
+     of the angle between them. Since we will be representing our sentences as the bunch of vectors,
+     we can use it to find the similarity among sentences.
+     Its measures cosine of the angle between vectors. Angle will be 0 if sentences are similar.
+    '''
+
+    #Check is the word is not in the stop word 
     if stopwords is None:
         stopwords = []
  
@@ -49,6 +57,7 @@ def sentence_similarity(sent1, sent2, stopwords=None):
     return 1 - cosine_distance(vector1, vector2)
  
 def build_similarity_matrix(sentences, stop_words):
+    # This is where we will be using cosine similarity to find similarity between sentences
     # Create an empty similarity matrix
     similarity_matrix = np.zeros((len(sentences), len(sentences)))
  
@@ -59,24 +68,30 @@ def build_similarity_matrix(sentences, stop_words):
             similarity_matrix[idx1][idx2] = sentence_similarity(sentences[idx1], sentences[idx2], stop_words)
 
     return similarity_matrix
-
+  
 
 def word_count(descriptions: List[str])-> Dict[str,int]:
-    ''' This function uses the TF-IDF algorithem to find the most important words.
+    ''' This function counts the words of the sentences that were summerized with simmilarity matrix algorithm.
 
-        dataset: A list containing sentences.
-        return: A dict containing the most important words and how much the dataset contains these words.
+        descriptions: A list containing words.
+        return: A dict containing the most important words and how much those words are appeerd in the text.
     '''
     new_list = nlp("".join(descriptions))
     word_counter = {}
 
     for token in new_list:
+        # Check if word is either a stopword, interpunction or a bracket...
         if token.is_stop or token.is_punct or token.is_bracket or token.is_currency:
+            # skip the world
             continue
+        # ...else if it's a noun, proper noun or a adjective...
         elif token.pos_ == "NOUN" or token.pos_ == "PROPN" or token.pos_ == "ADJ":
+            # if the world does not exit
             if token.text not in word_counter:
+                # add it to the word counter with value 1 
                 word_counter[token.text] = 1
             else:
+                # else increase the value with 1
                 word_counter[token.text] += 1
     return word_counter
 
@@ -96,6 +111,7 @@ def generate_summary(sentences, top_n=15):
     ranked_sentence = sorted(((scores[i],s) for i,s in enumerate(sentences)), reverse=True)    
 
     for i in range(top_n):
+     # add the summarized text to the list
       summarize_text.append(" ".join(ranked_sentence[i][1]))
 
     # Count words
