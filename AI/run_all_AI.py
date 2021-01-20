@@ -50,24 +50,26 @@ def test_all():
     AI_S_NP = AI_Seq2SeqNoPadding(datasets, 4)
 
     # Train AI
-    print("AI_LSTM_Padding_1")
-    train_AI(AI_L_P, "AI\obj\AI_LSTM_Padding_1")
-    print("AI_LSTM_Padding_bidirectional_1")
-    train_AI(AI_L_P_b, "AI\obj\AI_LSTM_Padding_bidirectional_1")
+    # print("AI_LSTM_Padding_1")
+    # train_AI(AI_L_P, "AI\obj\AI_LSTM_Padding_1")
+    # print("AI_LSTM_Padding_bidirectional_1")
+    # train_AI(AI_L_P_b, "AI\obj\AI_LSTM_Padding_bidirectional_1")
 
-    print("AI_Seq2SeqPadding_1")
-    train_AI(AI_S_P, "AI\obj\AI_Seq2SeqPadding_1")
-    print("AI_Seq2SeqNoPadding_1")
-    train_AI(AI_S_NP, "AI\obj\AI_Seq2SeqNoPadding_1")
+    # print("AI_Seq2SeqPadding_1")
+    # train_AI(AI_S_P, "AI\obj\AI_Seq2SeqPadding_1")
+    # print("AI_Seq2SeqNoPadding_1")
+    # train_AI(AI_S_NP, "AI\obj\AI_Seq2SeqNoPadding_1")
 
     # Run AI
-    # print("AI_LSTM_Padding_1")
-    # run_AI(AI_L_P, "AI\obj\AI_LSTM_Padding_1")
-    # print("AI_LSTM_Padding_bidirectional_1")
-    # run_AI(AI_L_P_b, "AI\obj\AI_LSTM_Padding_bidirectional_1")
+    print("AI_LSTM_Padding_1")
+    run_AI(AI_L_P, "AI\obj\AI_LSTM_Padding_1")
+    print("AI_LSTM_Padding_bidirectional_1")
+    run_AI(AI_L_P_b, "AI\obj\AI_LSTM_Padding_bidirectional_1")
 
     # Create exactly the same AI anew in the function call, if i just reference to the existing AI it starts fucking up and giving weirdass errors
-    # print("AI_Seq2SeqPadding_1")
-    # run_AI(AI_S_P, "AI\obj\AI_Seq2SeqPadding_1")
-    # print("AI_Seq2SeqNoPadding_1")
-    # run_AI(AI_S_NP, "AI\obj\AI_Seq2SeqNoPadding_1")
+    print("AI_Seq2SeqPadding_1")
+    run_AI(AI_S_P, "AI\obj\AI_Seq2SeqPadding_1")
+    print("AI_Seq2SeqNoPadding_1")
+    run_AI(AI_S_NP, "AI\obj\AI_Seq2SeqNoPadding_1")
+
+test_all()
