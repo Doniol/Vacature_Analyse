@@ -49,7 +49,6 @@ def get_textrank_results(descriptions = List[str])-> Dict[str, int]:
                             word_dict[str(key_nlp[0].lemma_)] += 1
                         else:
                             word_dict[str(key_nlp[0].lemma_)] = 1
-
     return word_dict
 
 

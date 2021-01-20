@@ -25,7 +25,7 @@ def apply_lemmatization(keywords: str) -> List[str]:
         keywords_lemmatized.append(lemmatized.strip())
     return keywords_lemmatized
 
-def format_test_data_with_keywords(offer: str) -> List[str, List[str], List[str], List[str], List[str], List[str], List[str], List[str], List[str]]:
+def format_test_data_with_keywords(offer: str) -> Tuple[str, List[str], List[str], List[str], List[str], List[str], List[str], List[str], List[str]]:
     ''' This function turns a textfile into usable data to be stored in a database and used for the tests
     The textfile has both a relevant and all keywords lists
 
@@ -60,7 +60,7 @@ def format_test_data_with_keywords(offer: str) -> List[str, List[str], List[str]
     return [job_offer, relevant_keywords, lemma_relevant_keywords, single_relevant_keywords, lemma_single_relevant_keywords, keywords, lemma_Keywords, single_keywords, lemma_single_keyword]
 
 
-def format_test_data_without_keywords(offer: str) -> List[str, List[str], List[str], List[str], List[str], List[str], List[str], List[str], List[str]]:
+def format_test_data_without_keywords(offer: str) -> Tuple[str, List[str], List[str], List[str], List[str], List[str], List[str], List[str], List[str]]:
     ''' This function makes from the textfile usable data to store in a database and be used for the tests
     The textfile has only a relevant keywords list
 
@@ -88,7 +88,7 @@ def format_test_data_without_keywords(offer: str) -> List[str, List[str], List[s
     return [job_offer, relevant_keywords, lemma_relevant_keywords, single_relevant_keywords, lemma_single_relevant_keywords, [], [], [], []] 
 
 
-def create_dataset(filename: str) -> List[str, List[str], List[str], List[str], List[str], List[str], List[str], List[str], List[str]]:
+def create_dataset(filename: str) -> Tuple[str, List[str], List[str], List[str], List[str], List[str], List[str], List[str], List[str]]:
     ''' This function creates the dataset by calling the requiered function
 
     filename: The name of the file you want to get data from
