@@ -8,6 +8,7 @@ from algorithms.rake_textrank_combo import get_combo_results
 from typing import Dict, Union, Callable
 
 
+
 def algorithm_selector(name: str) -> Union[Callable, str]:
     ''' This function is used to select an algorithm
 

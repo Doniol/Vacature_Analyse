@@ -10,8 +10,8 @@ from os import path
         # 2. Sentences
             # 2.1. Full sentences, containing stop-words
             # 2.2. Cleaned sentences, stripped of stop-words
-            # 2.3. Lemmanized sentences, each word is lemmanized
-            # 2.4. Processed sentences, stripped of stop-words and lemmanized
+            # 2.3. lemmatized sentences, each word is lemmatized
+            # 2.4. Processed sentences, stripped of stop-words and lemmatized
         # 3. List of words (adjectives, nouns and names) with associated data
         # 4. List of named entities and associated data
         # 5. List of noun chunks and associated data

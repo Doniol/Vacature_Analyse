@@ -19,10 +19,10 @@ def apply_lemmatization(keywords: str) -> List[str]:
     for word in keyword_list:
         to_lemma = nlp(word)
         lemmatized = ""
-        # lemmanize the keyword
+        # lemmatize the keyword
         for token in to_lemma:
             lemmatized += str(token.lemma_) + " "
-        keywords_lemmanized.append(lemmatized.strip())
+        keywords_lemmatized.append(lemmatized.strip())
     return keywords_lemmatized
 
 def format_test_data_with_keywords(offer: str) -> List[str, List[str], List[str], List[str], List[str], List[str], List[str], List[str], List[str]]:
@@ -48,13 +48,13 @@ def format_test_data_with_keywords(offer: str) -> List[str, List[str], List[str]
     
     #turn the strings into lists of words with and without lemmatization
     keywords = [word.strip() for word in keywords_list.replace('\n', '').split(",")]
-    lemma_Keywords = apply_lemmanization(keywords_list)
+    lemma_Keywords = apply_lemmatization(keywords_list)
     single_keywords = [word.strip() for word in single_keywords_list.replace('\n', '').split(",")]
-    lemma_single_keyword =  apply_lemmanization(single_keywords_list)
+    lemma_single_keyword =  apply_lemmatization(single_keywords_list)
     relevant_keywords = [word.strip() for word in relevant_keywords_list.replace('\n', '').split(",")]
-    lemma_relevant_keywords = apply_lemmanization(relevant_keywords_list)
+    lemma_relevant_keywords = apply_lemmatization(relevant_keywords_list)
     single_relevant_keywords = [word.strip() for word in single_relevant_keywords_list.replace('\n', '').split(",")]
-    lemma_single_relevant_keywords = apply_lemmanization(single_relevant_keywords_list)
+    lemma_single_relevant_keywords = apply_lemmatization(single_relevant_keywords_list)
     
     #add the whole job offer data set together and add it to the list
     return [job_offer, relevant_keywords, lemma_relevant_keywords, single_relevant_keywords, lemma_single_relevant_keywords, keywords, lemma_Keywords, single_keywords, lemma_single_keyword]
@@ -80,9 +80,9 @@ def format_test_data_without_keywords(offer: str) -> List[str, List[str], List[s
 
     #turn the strings into lists of words with and without lemmatization
     relevant_keywords = [word.strip() for word in relevant_keywords_list.replace('\n', '').split(",")]
-    lemma_relevant_keywords = apply_lemmanization(relevant_keywords_list)
+    lemma_relevant_keywords = apply_lemmatization(relevant_keywords_list)
     single_relevant_keywords = [word.strip() for word in single_relevant_keywords_list.replace('\n', '').split(",")]
-    lemma_single_relevant_keywords = apply_lemmanization(single_relevant_keywords_list)
+    lemma_single_relevant_keywords = apply_lemmatization(single_relevant_keywords_list)
     
     #add the whole job offer data set together and add it to the list
     return [job_offer, relevant_keywords, lemma_relevant_keywords, single_relevant_keywords, lemma_single_relevant_keywords, [], [], [], []] 

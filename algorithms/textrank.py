@@ -21,7 +21,6 @@ def get_textrank_results(descriptions = List[str])-> Dict[str, int]:
     '''
     word_dict = {}
     for description in descriptions:
-        already_added = []
         description_nlp = nlp(description)
         # check if the job offer is dutch otherwise ignore it 
         if description_nlp._.language["language"] == "nl":
@@ -31,21 +30,26 @@ def get_textrank_results(descriptions = List[str])-> Dict[str, int]:
             for key in keywords_list:
                 # check if the key contains multiple words
                 if " " in key:
-                    #apply lemmanization on the key
+                    #apply lemmatization on the key
                     multi_key = nlp(key)
                     lemma_key = ""
                     for token in multi_key:
                         lemma_key += str(token.lemma_) + " "
                     lemma_key.rstrip()
-                    already_added.append(lemma_key)
                     # check if it ready was added for this job offer
-                    if lemma_key not in already_added:
-                        if lemma_key in word_dict:
-                            word_dict[lemma_key] += 1
+                    if lemma_key in word_dict:
+                        word_dict[lemma_key] += 1
+                    else:
+                        word_dict[lemma_key] = 1
+                # If the keyword is only one word
+                else:
+                    key_nlp = nlp(key)
+                    if key_nlp[0].pos_ == "NOUN" or key_nlp[0].pos_ == "PROPN":
+                        if str(key_nlp[0].lemma_) in word_dict:
+                            word_dict[str(key_nlp[0].lemma_)] += 1
                         else:
-                            word_dict[lemma_key] = 1
-                #check if key consists of multiple words
-                add_single_keyword(key, already_added, word_dict)
+                            word_dict[str(key_nlp[0].lemma_)] = 1
+
     return word_dict
 
 
@@ -92,7 +96,7 @@ def get_summarised_textrank_results(descriptions: List[str]) -> Dict[str, int]:
             for key in keywords_list:
                 # check if the key contains multiple words
                 if " " in key:
-                    #apply lemmanization on the key
+                    #apply lemmatization on the key
                     multi_key = nlp(key)
                     lemma_key = ""
                     for token in multi_key:

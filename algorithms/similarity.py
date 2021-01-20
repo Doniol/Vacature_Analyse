@@ -3,11 +3,16 @@ from spacy.lang.nl.stop_words import STOP_WORDS
 from nltk.cluster.util import cosine_distance
 import numpy as np
 import networkx as nx
-from typing import List, Dict
+from typing import List, Dict, Set
 nlp = spacy.load('nl_core_news_sm')
 
 
-def read_article(file_name):
+def read_article(file_name: str)-> List[str]:
+    ''' This function reads a file and splits it into sentences
+
+    file_name: a string with the name of the file
+    return: A list where every item is a sentence
+    '''
     file = open(file_name, "r", encoding='utf-8')
     article = file.readlines()
 
@@ -22,12 +27,19 @@ def read_article(file_name):
     
     return sentences
 
-def sentence_similarity(sent1, sent2, stopwords=None):
-    ''' This function depends on Cosine similarity
-     is a measure of similarity between two non-zero vectors of an inner product space that measures the cosine 
-     of the angle between them. Since we will be representing our sentences as the bunch of vectors,
-     we can use it to find the similarity among sentences.
-     Its measures cosine of the angle between vectors. Angle will be 0 if sentences are similar.
+def sentence_similarity(sent1: str, sent2: str, stopwords: Set[str]=None)-> float:
+    ''' This function applies Cosine similarity
+    Consine simality is a measure of similarity between two non-zero vectors of an inner product space 
+    that measures the cosine of the angle between them. 
+    Since we will be representing our sentences as the bunch of vectors,
+    we can use it to find the similarity among sentences. 
+    Its measures cosine of the angle between vectors.
+    The angle will be closer to 0 if the sentences are similar.
+
+    sent1: a string with the first sentence
+    sent2: a string with the second sentence
+    stopwords: a set of strings
+    return: a float with the score of how similiar the sentence are
     '''
 
     #Check is the word is not in the stop word 
@@ -56,9 +68,15 @@ def sentence_similarity(sent1, sent2, stopwords=None):
  
     return 1 - cosine_distance(vector1, vector2)
  
-def build_similarity_matrix(sentences, stop_words):
-    # This is where we will be using cosine similarity to find similarity between sentences
-    # Create an empty similarity matrix
+def build_similarity_matrix(sentences: List[str], stop_words: Set[str]=None)->List[List[float]]:
+    ''' This function builds up the similarity matrix
+    This is where we will be using cosine similarity to find the similarities between sentences
+    and fill the similitarity matrix with the scores.
+    
+    sentences: A list with the sentences
+    stop_word= the stop words you want to ignore
+    return: a matrix filled with the similairy scores 
+    '''
     similarity_matrix = np.zeros((len(sentences), len(sentences)))
  
     for idx1 in range(len(sentences)):
@@ -70,11 +88,11 @@ def build_similarity_matrix(sentences, stop_words):
     return similarity_matrix
   
 
-def word_count(descriptions: List[str])-> Dict[str,int]:
-    ''' This function counts the words of the sentences that were summerized with simmilarity matrix algorithm.
+def word_count(descriptions: List[str]) -> Dict[str,int]:
+    ''' This function counts the words of the sentences that were summerized with simmilarity matrix algorithm
 
-        descriptions: A list containing words.
-        return: A dict containing the most important words and how much those words are appeerd in the text.
+    descriptions: A list containing the words
+    return: A dict containing the most important words and how much those words appeared in the text
     '''
     new_list = nlp("".join(descriptions))
     word_counter = {}
@@ -96,7 +114,13 @@ def word_count(descriptions: List[str])-> Dict[str,int]:
     return word_counter
 
 
-def generate_summary(sentences, top_n=15):
+def generate_summary(sentences, top_n=15)-> Dict[str, int]:
+    ''' This is the main function for similairty matrix
+
+    sentences: A list with the sentences of the text
+    top_n: how many of the most similar sentences should be looked for the summary
+    return: A dictionary with how often a word is used
+    '''
     summarize_text = []
 
  

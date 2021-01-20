@@ -4,7 +4,8 @@ from AI_LSTM import AI_LSTM_Padding, AI_LSTM_Padding_bidirectional
 from AI_seq2seq import AI_Seq2SeqNoPadding, AI_Seq2SeqPadding
 import numpy as np
 from keras.backend import clear_session
-from basic_test import test
+from custom_tests.basic_test import test
+from typing import Tuple
 
 
 def train_AI(AI: BasicAI, out_file: str, in_file: str=None):
@@ -14,7 +15,7 @@ def train_AI(AI: BasicAI, out_file: str, in_file: str=None):
     out_file: File in which to save the trained weights
     in_file: File from which to load existing weights
     '''
-    AI.train_AI(1, out_file, weights_input=in_file)
+    AI.train_AI(200, out_file, weights_input=in_file)
 
 
 def run_AI(AI, file: str):
@@ -31,7 +32,7 @@ def run_AI(AI, file: str):
     AI_test.get_test_results(0.5, 1, True)
 
 
-def main():
+def test_all():
     ''' Main function
     In this case used to run and/or train different AI's.
     Note that not all AI's can be ran/trained at the same time. Why this is, I can't figure out, so just don't be surprised when you
@@ -49,15 +50,15 @@ def main():
     AI_S_NP = AI_Seq2SeqNoPadding(datasets, 4)
 
     # Train AI
-    # print("AI_LSTM_Padding_1")
-    # train_AI(AI_L_P, "AI\obj\AI_LSTM_Padding_1")
-    # print("AI_LSTM_Padding_bidirectional_1")
-    # train_AI(AI_L_P_b, "AI\obj\AI_LSTM_Padding_bidirectional_1")
+    print("AI_LSTM_Padding_1")
+    train_AI(AI_L_P, "AI\obj\AI_LSTM_Padding_1")
+    print("AI_LSTM_Padding_bidirectional_1")
+    train_AI(AI_L_P_b, "AI\obj\AI_LSTM_Padding_bidirectional_1")
 
-    # print("AI_Seq2SeqPadding_1")
-    # train_AI(AI_S_P, "AI\obj\AI_Seq2SeqPadding_1")
-    # print("AI_Seq2SeqNoPadding_1")
-    # train_AI(AI_S_NP, "AI\obj\AI_Seq2SeqNoPadding_1")
+    print("AI_Seq2SeqPadding_1")
+    train_AI(AI_S_P, "AI\obj\AI_Seq2SeqPadding_1")
+    print("AI_Seq2SeqNoPadding_1")
+    train_AI(AI_S_NP, "AI\obj\AI_Seq2SeqNoPadding_1")
 
     # Run AI
     # print("AI_LSTM_Padding_1")
@@ -70,6 +71,3 @@ def main():
     # run_AI(AI_S_P, "AI\obj\AI_Seq2SeqPadding_1")
     # print("AI_Seq2SeqNoPadding_1")
     # run_AI(AI_S_NP, "AI\obj\AI_Seq2SeqNoPadding_1")
-
-
-main()

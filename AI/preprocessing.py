@@ -1,5 +1,6 @@
 import spacy
 import codecs
+from typing import Tuple, List
 
 nlp = spacy.load('nl_core_news_md')
 
@@ -54,7 +55,7 @@ def add_uniques(existing_list: List[str], entry_list: List[str]):
     return list(uniques)
 
 
-def load_datasets(dataset_names: List[str]) -> List[List[List[List[str]], List[List[str]], List[List[str]], List[List[str]]], List[List[str]], List[List[str], List[str], List[str], List[str]]]:
+def load_datasets(dataset_names: List[str]) -> Tuple[List[List[List[str]]], List[List[str]], List[List[str]]]:
     ''' Returns all relevant data from a list of given datasets
     Returns 3 different lists filled with data used in the training/running of AI
     The first list is one filled with 4 lists corresponding to the 4 types of information gained from

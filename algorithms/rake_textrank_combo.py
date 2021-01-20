@@ -27,11 +27,8 @@ def get_combo_results(descriptions: List[str]) -> Dict[str, int]:
         word_list = nlp(summary)
         # check if the job offer is dutch otherwise ignore it 
         if word_list._.language["language"] == "nl":
-            already_added_to_dict = []
             words = r.apply(description)
             for word in words:
-                if str(word[1].lemma_) in already_added_to_dict or str(word[1]) in already_added_to_dict:
-                    continue
                 if all(c.isalpha() or c.isspace() for c in str(word[1])):
                     #ignore non nouns, proper noun and adjectives
                     if len(word[1]) >1 or (word[1][0].pos_ == "NOUN" or word[1][0].pos_ == "PROPN"):
@@ -39,17 +36,13 @@ def get_combo_results(descriptions: List[str]) -> Dict[str, int]:
                         if str(word[1]).isupper():
                             if str(word[1]) in word_dict:
                                 word_dict[str(word[1])] += 1
-                                already_added_to_dict.append(str(word[1]))
                             else:
                                 word_dict[str(word[1])] = 1
-                                already_added_to_dict.append(str(word[1]))
                         else:
                             if str(word[1].lemma_) in word_dict:
                                 word_dict[str(word[1].lemma_)] += 1
-                                already_added_to_dict.append(str(word[1].lemma_))
                             else:
                                 word_dict[str(word[1].lemma_)] = 1
-                                already_added_to_dict.append(str(word[1].lemma_))
     return word_dict
 
 
