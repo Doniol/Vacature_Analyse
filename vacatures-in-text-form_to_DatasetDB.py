@@ -27,16 +27,10 @@ def execute( output, query):
 
 def init(woordenlijsten):
     for lijst in woordenlijsten:
-        execute( 0, """ DROP TABLE IF EXISTS vacatures_{};
-                        DROP TABLE IF EXISTS vacatures_alle_woorden;
-                        DROP TABLE IF EXISTS vacatures_zinnige_woorden;
-                    """.format(lijst))
+        execute( 0, """ DROP TABLE IF EXISTS vacatures_{}""".format(lijst))
 
     for lijst in woordenlijsten:
         execute( 0, """ DROP TABLE IF EXISTS vacatures;
-                        DROP TABLE IF EXISTS woorden;
-                        DROP TABLE IF EXISTS alle_woorden;
-                        DROP TABLE IF EXISTS zinnige_woorden;
                         DROP TABLE IF EXISTS {};
                     """.format(lijst))
 
