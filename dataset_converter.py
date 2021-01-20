@@ -104,17 +104,14 @@ def create_dataset(filename: str) -> Tuple[str, List[str], List[str], List[str],
         # check if the data set has a piece about every keyword not just the relevant
         if data_set.find("SINGLE KERNWOORDEN") == -1:
             test_data = format_test_data_without_keywords(data_set)
-            print(test_data)
+            # print(test_data)
             formatted_test_data.append(test_data)
         else:
             test_data = format_test_data_with_keywords(data_set)
-            print(test_data)
+            # print(test_data)
             formatted_test_data.append(test_data)
     return formatted_test_data
 
 
 def main():
     create_dataset("ict vacatures in text form.txt")
-
-
-main()

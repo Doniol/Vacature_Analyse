@@ -17,21 +17,16 @@ def get_baseline_results(descriptions: List[str]) -> Dict[str, int]:
     '''
     word_dict = {}
     for description in descriptions:
-        already_added =[]
         word_list = nlp(description)
         # Check if the job offer is dutch
         if word_list._.language["language"] == "nl":
             for token in word_list:
                 # Check if token (word) is a noun or pronoun
                 if token.pos_ == "NOUN" or token.pos_ == "PROPN":
-                    if token not in already_added:
-                        if token.lemma_ in word_dict:
-                            word_dict[token.lemma_] += 1
-                            already_added.append(token)
-                        else:
-                            word_dict[token.lemma_] = 1
-                            already_added.append(token)
-
+                    if token.lemma_ in word_dict:
+                        word_dict[token.lemma_] += 1
+                    else:
+                        word_dict[token.lemma_] = 1
     return word_dict
 
 
