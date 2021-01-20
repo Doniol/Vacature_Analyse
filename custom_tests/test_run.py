@@ -2,6 +2,7 @@ import basic_test
 import algorithms.textrank, algorithms.rake_textrank_combo, algorithms.rake
 import algorithms.TF_IDF
 import algorithms.similarity
+import algorithms.baseline
 
 
 def main():
@@ -15,6 +16,12 @@ def main():
             "pki", "nederlandse", "nationaliteit", "nederlands", "analytisch", "creatieve", "zelfstandig", "teamverband", 
             "organiseren", "verantwoordelijkheidsgevoel", "fulltime", "rijksoverheid", "projectmanagement", "informatietechniek"]
     
+    # Baseline
+    print("Baseline")
+    test_baseline = basic_test.test(algorithms.baseline.get_baseline_results, [file], ans)
+    test_baseline.run_algorithm()
+    test_baseline.get_test_results(0.5, 1, True)
+
     # Textrank
     print("Textrank")
     test_textrank = basic_test.test(algorithms.textrank.get_textrank_results, [file], ans)

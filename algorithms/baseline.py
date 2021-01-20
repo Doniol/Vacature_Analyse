@@ -58,6 +58,3 @@ def main():
     print("Uploading...")
     db_out.add_dict(baseline_results, "baseline")
 
-
-
-main()
