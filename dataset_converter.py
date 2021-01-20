@@ -78,7 +78,7 @@ def create_dataset(filename: str) -> Tuple[str, List[str], List[str], List[str],
 
 
 def main():
-    create_dataset("rick ict vacatures.txt")
+    create_dataset("dataset\\vacature_testset_txtformat.txt")
 
 
 main()
